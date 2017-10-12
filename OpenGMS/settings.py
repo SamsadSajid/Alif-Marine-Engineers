@@ -93,7 +93,7 @@ ROOT_URLCONF = 'OpenGMS.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'OpenGMS/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -180,8 +180,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-LOGIN_URL = '/'
-LOGIN_REDIRECT_URL = '/core/'
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/officer/'
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = [
@@ -192,6 +192,14 @@ STATICFILES_DIRS = [
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+
+# EMAIL_BACKEND = config('EMAIL_BACKEND')
+# MAILGUN_ACCESS_KEY = config('MAILGUN_ACCESS_KEY')
+# MAILGUN_SERVER_NAME = config('MAILGUN_SERVER_NAME')
+
+
+EMAIL_BACKEND = config('EMAIL_BACKEND')
+SENDGRID_API_KEY = config('SENDGRID_API_KEY')
 
 #### Sentry #####
 #

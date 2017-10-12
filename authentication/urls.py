@@ -18,7 +18,6 @@ from django.conf.urls import url
 from django.views import generic
 
 urlpatterns = [
-       # url(r'^signup/$', generic.FormView.as_view(
-       #  form_class=form.RegistrationForm, template_name="base_form.html")),
+
 
 ]

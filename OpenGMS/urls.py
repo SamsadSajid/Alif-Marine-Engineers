@@ -22,15 +22,22 @@ from django.contrib.auth import views as auth_views
 from django.views import generic
 
 from core import views as core_views
+from authentication import views as client_auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', core_views.home, name='home'),
-    url(r'^login', auth_views.login, {'template_name': 'core/login.html'},
-        name='login'),
+    url(r'^login', core_views.login_view, name='login'),
+
+    url(r'^signup/$', client_auth_views.signup, name='signup'),
+    url(r'^account_activation_sent/$', client_auth_views.account_activation_sent,
+        name='account_activation_sent'),
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        client_auth_views.activate, name='activate'),
+
     url(r'^auth/', include('authentication.urls')),
     url(r'^officer/', include('officer.urls')),
-    url(r'^client/', include('client.urls')),
+    # url(r'^client/', include('client.urls')),
     url(r'^production/', include('production.urls')),
     url(r'^service/', include('service.urls')),
 ]

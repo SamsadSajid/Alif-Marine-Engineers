@@ -13,3 +13,5 @@ django-material
 raven
 django-debug-toolbar
 django-tables2
+django-mailgun
+sendgrid-django==4.0.4

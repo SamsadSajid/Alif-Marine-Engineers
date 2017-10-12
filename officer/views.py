@@ -15,6 +15,7 @@ from django.shortcuts import render
 from django_tables2 import RequestConfig
 from .models import Order_List
 from .tables import OrderTable
+from django.contrib.auth import logout
 
 # Create your views here.
 
@@ -160,3 +161,8 @@ def order_list(request):
     # table = OrderTable(Order_List.objects.all())
     # RequestConfig(request).configure(table)
     return render(request, 'dashboard/order_list.html')
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'core/login.html')
