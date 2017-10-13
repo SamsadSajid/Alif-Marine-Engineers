@@ -6,9 +6,8 @@ env:
   - DJANGO_VERSION=1.11.6
 install:
   - pip install -r requirements.txt
-  - pip install "$DJANGO"
-before_script:
   - pip install -q Django==$DJANGO_VERSION
+before_script:
   - python manage.py migrate
 script:
   - python manage.py test
