@@ -14,42 +14,43 @@ from client.form import ProfileForm, ChangePasswordForm, ContactForm, NewOrderFo
 from django.shortcuts import render
 from django_tables2 import RequestConfig
 from .models import Order_List
+from django.contrib.auth import logout
 # from .tables import OrderTable
-
-# Create your views here.
-
 
 __FILE_TYPES = ['zip']
 
 
-# @login_required
+@login_required(login_url='/login/')
 def profile(request):
-    # user = request.user
-    # if request.method == 'POST':
-    #     form = ProfileForm(request.POST)
-    #     if form.is_valid():
-    #         user.first_name = form.cleaned_data.get('first_name')
-    #         user.last_name = form.cleaned_data.get('last_name')
-    #         user.profile.job_title = form.cleaned_data.get('job_title')  # profile is for user profile
-    #         user.email = form.cleaned_data.get('email')
-    #         user.profile.url = form.cleaned_data.get('url')
-    #         user.profile.location = form.cleaned_data.get('location')
-    #         user.profile.about = form.cleaned_data.get('about')
-    #         user.save()
-    #         messages.add_message(request,
-    #                              messages.SUCCESS,
-    #                              'Your profile was successfully edited.')
-    #
-    # else:
-    #     form = ProfileForm(instance=user, initial={
-    #         'job_title': user.profile.job_title,
-    #         'url': user.profile.url,
-    #         'location': user.profile.location
-    #         })
-    form = ProfileForm()
+    user = request.user
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            user.first_name = form.cleaned_data.get('first_name')
+            user.last_name = form.cleaned_data.get('last_name')
+            # user.birth_date = form.cleaned_data.get('birth_date')
+            # user.profile.job_title = form.cleaned_data.get('job_title')  # profile is for user profile
+            user.sex = form.cleaned_data.get('sex')
+            user.email = form.cleaned_data.get('email')
+            # user.profile.url = form.cleaned_data.get('url')
+            # user.profile.location = form.cleaned_data.get('location')
+            user.profile.about = form.cleaned_data.get('about')
+            user.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your profile was successfully edited.')
+
+    else:
+        # form = ProfileForm(instance=user, initial={
+        #     'job_title': user.profile.job_title,
+        #     'url': user.profile.url,
+        #     'location': user.profile.location
+        #     })
+        form = ProfileForm(instance=user)
     return render(request, 'client/client_profile.html', {'form': form})
 
-#@login_required
+
+# @login_required
 def contact(request):
     form = ContactForm()
     return render(request, 'client/client_contact.html', {'form': form})
@@ -168,3 +169,8 @@ def order_view(request):
 def order_edit(request):
     form = NewOrderForm()
     return render(request, 'client/order_edit.html', {'form': form})
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'core/login.html')

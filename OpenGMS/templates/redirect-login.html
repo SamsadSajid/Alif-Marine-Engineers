@@ -1,4 +1,5 @@
 {% load staticfiles i18n %}
+{# after user is looged in, he/she redirects to this page #}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -38,15 +39,25 @@
                 <input class="form-control mr-sm-2" type="text" placeholder="Search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
+{#          <li class="nav-item">#}
+{#            <a class="nav-link" href="{% url 'signup'%}"> <span>Sign Up</span> </a>#}
+{#          </li>#}
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <ul class="nav nav-tabs">
+            <ul class="nav nav-pills">
                 <li role="presentation" class="active">
-                    <a class="nav-link" href="{% url 'signup'%}"> <span>Sign Up</span> </a>
+{#                    <a href="#">Home</a>#}
+                    <a class="nav-link" href="{% url 'profile' user.username %}">
+                        <span>{{ user.profile.get_screen_name }}</span>
+                    </a>
                 </li>
-                <li role="presentation">
-                    <a class="nav-link" href="{% url 'login'%}"> <span>Sign In</span> </a>
-                </li>
+{#                <li role="presentation"><a href="#">Profile</a></li>#}
+{#                <li role="presentation"><a href="#">Messages</a></li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{% url 'profile' user.username %}">#}
+{#                        <span>{{ user.profile.get_screen_name }}</span>#}
+{#                    </a>#}
+{#                </li>#}
             </ul>
         </ul>
       </div>

@@ -13,9 +13,9 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=True)
-    birth_date = forms.DateField(
-        widget=forms.DateInput,
-        help_text=datetime.date.today, required=True)
+    # birth_date = forms.DateField(
+    #     widget=forms.DateInput,
+    #     help_text=datetime.date.today, required=True)
     user_sex = ( ('MALE', 'Male'), ('FEMALE', 'Female') )
     sex = forms.ChoiceField(choices=user_sex)
     email = forms.CharField(
@@ -29,7 +29,7 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'birth_date', 'sex', 'email', 'about']
+        fields = ['first_name', 'last_name', 'sex', 'email', 'about']
 
 
 class ChangePasswordForm(forms.ModelForm):

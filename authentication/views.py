@@ -76,9 +76,14 @@ def activate(request, uidb64, token):
         #                                                     user.username)
         # feed = Feed(user=user, post=welcome_post)
         # feed.save()
-        return redirect('/')
+        # return render(request, 'redirect-login.html')
+        return redirect('/pass?=success/')
     else:
         return render(request, 'account_activation_invalid.html')
+
+
+def regSuccess(request):
+    return render(request, 'redirect-login.html')
 
 
 

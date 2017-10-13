@@ -49,7 +49,8 @@ def profile(request):
     form = ProfileForm()
     return render(request, 'dashboard/profile.html', {'form': form})
 
-#@login_required
+
+# @login_required
 def contact(request):
     form = ContactForm()
     return render(request, 'dashboard/contact.html', {'form': form})

@@ -34,12 +34,16 @@ urlpatterns = [
         name='account_activation_sent'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         client_auth_views.activate, name='activate'),
+    url(r'^/pass?=success/', client_auth_views.regSuccess, name='/pass?=success/'),
 
     url(r'^auth/', include('authentication.urls')),
     url(r'^officer/', include('officer.urls')),
-    # url(r'^client/', include('client.urls')),
+    url(r'^client/', include('client.urls')),
     url(r'^production/', include('production.urls')),
     url(r'^service/', include('service.urls')),
+
+    url(r'^(?P<username>[^/]+)/$', core_views.profile, name='profile'),
+    url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
 ]
 
 if settings.DEBUG:
