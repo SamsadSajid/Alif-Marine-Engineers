@@ -49,6 +49,10 @@ INSTALLED_APPS = [
     'django_tables2',
     'debug_toolbar',
     # 'raven.contrib.django.raven_compat',
+
+    # 3rd party app
+    'phonenumber_field',
+
     #app
     'core',
     'authentication',

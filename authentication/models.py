@@ -8,14 +8,23 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.utils.encoding import python_2_unicode_compatible
 from django.dispatch import receiver
+from phonenumber_field.modelfields import PhoneNumberField
 
 
 @python_2_unicode_compatible
 class Profile(models.Model):
     user = models.OneToOneField(User)
-    location = models.CharField(max_length=50, null=True, blank=True)
-    url = models.CharField(max_length=50, null=True, blank=True)
-    job_title = models.CharField(max_length=50, null=True, blank=True)
+    # location = models.CharField(max_length=50, null=True, blank=True)
+    # url = models.CharField(max_length=50, null=True, blank=True)
+    # job_title = models.CharField(max_length=50, null=True, blank=True)
+    user_sex = (('MALE', 'Male'), ('FEMALE', 'Female'))
+    sex = models.CharField(max_length=6, default='Male', choices=user_sex)
+    address = models.CharField(max_length=250, null=True, blank=True)
+    city = models.CharField(max_length=250, null=True, blank=True)
+    state = models.CharField(max_length=250, null=True, blank=True)
+    country = models.CharField(max_length=250, null=True, blank=True)
+    phone = PhoneNumberField(null=True, blank=True)
+    zip = models.IntegerField(null=True, blank=True)
     about = models.CharField(max_length=250, null=True, blank=True)
     email_confirmed = models.BooleanField(default=False)
 

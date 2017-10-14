@@ -30,7 +30,7 @@ def profile(request):
             user.last_name = form.cleaned_data.get('last_name')
             # user.birth_date = form.cleaned_data.get('birth_date')
             # user.profile.job_title = form.cleaned_data.get('job_title')  # profile is for user profile
-            user.sex = form.cleaned_data.get('sex')
+            user.profile.sex = form.cleaned_data.get('sex')
             user.email = form.cleaned_data.get('email')
             # user.profile.url = form.cleaned_data.get('url')
             # user.profile.location = form.cleaned_data.get('location')
@@ -46,13 +46,54 @@ def profile(request):
         #     'url': user.profile.url,
         #     'location': user.profile.location
         #     })
-        form = ProfileForm(instance=user)
+        form = ProfileForm(instance=user, initial={
+            'sex': user.profile.sex,
+            'about': user.profile.about,
+        })
     return render(request, 'client/client_profile.html', {'form': form})
 
 
-# @login_required
+@login_required(login_url='/login/')
 def contact(request):
-    form = ContactForm()
+    user = request.user
+    if request.method == 'POST':
+        # form = ContactForm()
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            user.profile.address = form.cleaned_data.get('address')
+            user.profile.city = form.cleaned_data.get('city')
+            user.profile.state = form.cleaned_data.get('state')
+            user.profile.country = form.cleaned_data.get('country')
+            user.profile.phone = form.cleaned_data.get('phone')
+            user.profile.zip = form.cleaned_data.get('zip')
+
+            # user.birth_date = form.cleaned_data.get('birth_date')
+            # user.profile.job_title = form.cleaned_data.get('job_title')  # profile is for user profile
+            # user.sex = form.cleaned_data.get('sex')
+            # user.email = form.cleaned_data.get('email')
+            # user.profile.url = form.cleaned_data.get('url')
+            # user.profile.location = form.cleaned_data.get('location')
+            # user.profile.about = form.cleaned_data.get('about')
+
+            user.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your contact was successfully edited.')
+
+    else:
+        # form = ProfileForm(instance=user, initial={
+        #     'job_title': user.profile.job_title,
+        #     'url': user.profile.url,
+        #     'location': user.profile.location
+        #     })
+        form = ContactForm(instance=user, initial={
+            'address': user.profile.address,
+            'city': user.profile.city,
+            'state': user.profile.state,
+            'country': user.profile.country,
+            'phone': user.profile.phone,
+            'zip': user.profile.zip,
+        })
     return render(request, 'client/client_contact.html', {'form': form})
 
 
