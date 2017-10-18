@@ -32,6 +32,14 @@
       <div class="login_wrapper">
         <div class="animate form login_form">
           <section class="login_content">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-error alert-dismissable">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
             <form role="form" class="form-horizontal" method="post" action="{% url 'login' %}">
               {% csrf_token %}
               <h1>Login Form</h1>

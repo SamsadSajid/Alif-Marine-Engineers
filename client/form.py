@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from phonenumber_field.formfields import PhoneNumberField
 import datetime
 
 
@@ -16,7 +17,7 @@ class ProfileForm(forms.ModelForm):
     # birth_date = forms.DateField(
     #     widget=forms.DateInput,
     #     help_text=datetime.date.today, required=True)
-    user_sex = ( ('MALE', 'Male'), ('FEMALE', 'Female') )
+    user_sex = (('Choose', 'Choose an option'), ('MALE', 'Male'), ('FEMALE', 'Female'))
     sex = forms.ChoiceField(choices=user_sex)
     email = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
@@ -86,8 +87,10 @@ class ContactForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=30,
         required=True)
-    phone = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=True)
+    # phone = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}),
+    #     required=True)
+    phone = PhoneNumberField(widget=forms.TextInput(attrs={'placeholder': 'Phone'}), label="Phone number",
+                            required=False)
     zip = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=True)
 

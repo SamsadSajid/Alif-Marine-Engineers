@@ -164,21 +164,21 @@ def save_uploaded_picture(request):
 
 # @login_required
 def password(request):
-    # user = request.user
-    # if request.method == 'POST':
-    #     form = ChangePasswordForm(request.POST)
-    #     if form.is_valid():
-    #         new_password = form.cleaned_data.get('new_password')
-    #         user.set_password(new_password)
-    #         user.save()
-    #         update_session_auth_hash(request, user)
-    #         messages.add_message(request, messages.SUCCESS,
-    #                              'Your password was successfully changed.')
-    #         return redirect('password')
-    #
-    # else:
-    #     form = ChangePasswordForm(instance=user)
-    form = ChangePasswordForm()
+    user = request.user
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            new_password = form.cleaned_data.get('new_password')
+            user.set_password(new_password)
+            user.save()
+            update_session_auth_hash(request, user)
+            messages.add_message(request, messages.SUCCESS,
+                                 'Your password was successfully changed.')
+            return redirect('password/')
+
+    else:
+        form = ChangePasswordForm(instance=user)
+    # form = ChangePasswordForm()
     return render(request, 'client/client_password.html', {'form': form})
 
 

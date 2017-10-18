@@ -11,6 +11,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from PIL import Image
 from django.contrib.auth import authenticate, login
 
+from .form import LogInForm
+
 
 def home(request):
     if request.user.is_authenticated():
@@ -26,11 +28,37 @@ def login_view(request):
         print(username, password)
         user = authenticate(request, username=username, password=password)
         if user is not None:
-            login(request, user)
-            print("yoo")
+            if user.is_active:
+                if user.profile.account_type == 0:
+                    login(request, user)
+                    print("yoo")
             # return render(request, 'dashboard/profile.html')
-            return redirect('/client/profile/')
+                    return redirect('/client/profile/')
+                elif user.profile.account_type == 1:
+                    login(request, user)
+                    print("yoo")
+                    # return render(request, 'dashboard/profile.html')
+                    return redirect('/officer/profile/')
+                elif user.profile.account_type == 2:
+                    login(request, user)
+                    print("yoo")
+                    # return render(request, 'dashboard/profile.html')
+                    return redirect('/service/profile/')
+                elif user.profile.account_type == 3:
+                    login(request, user)
+                    print("yoo")
+                    # return render(request, 'dashboard/profile.html')
+                    return redirect('/production/profile/')
+            else:
+                messages.add_message(request,
+                                     messages.ERROR,
+                                     "Your account is not active. Please contact immediately"
+                                     "to the help centre!")
+                return render(request, 'core/login.html')
         else:
+            messages.add_message(request,
+                                 messages.ERROR,
+                                 "Username or Password doesn't match")
             return render(request, 'core/login.html')
     else:
         return render(request, 'core/login.html')
