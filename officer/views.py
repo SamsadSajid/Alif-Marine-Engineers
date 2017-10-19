@@ -56,7 +56,7 @@ def profile(request):
     return render(request, 'dashboard/profile.html', {'form': form})
 
 
-# @login_required
+@login_required
 def contact(request):
     user = request.user
     if request.method == 'POST':
@@ -100,7 +100,7 @@ def contact(request):
     return render(request, 'dashboard/contact.html', {'form': form})
 
 
-# @login_required
+@login_required
 def picture(request):
     uploaded_picture = False
     try:
@@ -115,7 +115,7 @@ def picture(request):
                   {'uploaded_picture': uploaded_picture})
 
 
-# @login_required
+@login_required
 def upload_picture(request):
     try:
         profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
@@ -142,19 +142,19 @@ def upload_picture(request):
         return redirect('/picture/')
 
 
-# @login_required
+@login_required
 def save_uploaded_picture(request):
     try:
         x = int(request.POST.get('x'))
         y = int(request.POST.get('y'))
         w = int(request.POST.get('w'))
         h = int(request.POST.get('h'))
-        tmp_filename = django_settings.MEDIA_ROOT + '/profile_pictures/' +\
-            request.user.username + '_tmp.jpg'
-        filename = django_settings.MEDIA_ROOT + '/profile_pictures/' +\
-            request.user.username + '.jpg'
+        tmp_filename = django_settings.MEDIA_ROOT + '/profile_pictures/' + \
+                       request.user.username + '_tmp.jpg'
+        filename = django_settings.MEDIA_ROOT + '/profile_pictures/' + \
+                   request.user.username + '.jpg'
         im = Image.open(tmp_filename)
-        cropped_im = im.crop((x, y, w+x, h+y))
+        cropped_im = im.crop((x, y, w + x, h + y))
         cropped_im.thumbnail((200, 200), Image.ANTIALIAS)
         cropped_im.save(filename)
         os.remove(tmp_filename)
@@ -165,7 +165,7 @@ def save_uploaded_picture(request):
     return redirect('picture/')
 
 
-# @login_required
+@login_required
 def password(request):
     user = request.user
     if request.method == 'POST':
@@ -185,7 +185,44 @@ def password(request):
 
 
 def create_account(request):
-    return render(request, 'dashboard/create_account.html')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        # email = request.POST.get('email', False)
+        account_type = request.POST.get('account_type')
+        print (username)
+        # print (email)
+        print (account_type)
+
+        account_types = {'Technical Officer': 1, 'Service Manager': 2, 'Production Manager': 3}
+        if username and account_type != 'Account Type':
+            if not User.objects.filter(username=username).exists():
+                rand_password = User.objects.make_random_password(length=10, allowed_chars='abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789')
+                print("Generated Password " + rand_password)
+                user = User.objects.create_user(username=username, password=rand_password)
+                user.profile.account_type = account_types[account_type]
+                user.save()
+                print('user is saved')
+                # NewUser(user=user, password=password).save()
+                # messages.success(request, 'Created account successfully.')
+                messages.add_message(request,
+                                     messages.SUCCESS,
+                                     "Account is created successfully!")
+                return redirect('/officer/create_account')
+            else:
+                # messages.error(request, 'Submitted form is not valid. User already exist.')
+                messages.add_message(request,
+                                     messages.ERROR,
+                                     "Submitted form is not valid. User already exist!")
+                return redirect('/officer/create_account')
+
+        else:
+            # messages.error(request, 'Submitted form is not valid. Try again.')
+            messages.add_message(request,
+                                 messages.ERROR,
+                                 "Submitted form is not valid! Try again.")
+            return render(request, 'dashboard/create_account.html')
+    else:
+        return render(request, 'dashboard/create_account.html')
 
 
 def delete_account(request):

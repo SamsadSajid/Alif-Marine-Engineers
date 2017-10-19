@@ -21,41 +21,85 @@ from .models import Order_List
 
 __FILE_TYPES = ['zip']
 
-# @login_required
+
+@login_required
 def profile(request):
-    # user = request.user
-    # if request.method == 'POST':
-    #     form = ProfileForm(request.POST)
-    #     if form.is_valid():
-    #         user.first_name = form.cleaned_data.get('first_name')
-    #         user.last_name = form.cleaned_data.get('last_name')
-    #         user.profile.job_title = form.cleaned_data.get('job_title')  # profile is for user profile
-    #         user.email = form.cleaned_data.get('email')
-    #         user.profile.url = form.cleaned_data.get('url')
-    #         user.profile.location = form.cleaned_data.get('location')
-    #         user.profile.about = form.cleaned_data.get('about')
-    #         user.save()
-    #         messages.add_message(request,
-    #                              messages.SUCCESS,
-    #                              'Your profile was successfully edited.')
-    #
-    # else:
-    #     form = ProfileForm(instance=user, initial={
-    #         'job_title': user.profile.job_title,
-    #         'url': user.profile.url,
-    #         'location': user.profile.location
-    #         })
-    form = ProfileForm()
+    user = request.user
+    if request.method == 'POST':
+        form = ProfileForm(request.POST)
+        if form.is_valid():
+            user.first_name = form.cleaned_data.get('first_name')
+            user.last_name = form.cleaned_data.get('last_name')
+            # user.birth_date = form.cleaned_data.get('birth_date')
+            # user.profile.job_title = form.cleaned_data.get('job_title')  # profile is for user profile
+            user.profile.sex = form.cleaned_data.get('sex')
+            user.email = form.cleaned_data.get('email')
+            # user.profile.url = form.cleaned_data.get('url')
+            # user.profile.location = form.cleaned_data.get('location')
+            user.profile.about = form.cleaned_data.get('about')
+            user.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your profile was successfully edited.')
+
+    else:
+        # form = ProfileForm(instance=user, initial={
+        #     'job_title': user.profile.job_title,
+        #     'url': user.profile.url,
+        #     'location': user.profile.location
+        #     })
+        form = ProfileForm(instance=user, initial={
+            'sex': user.profile.sex,
+            'about': user.profile.about,
+        })
     return render(request, 'production/profile.html', {'form': form})
 
 
-# @login_required
+@login_required
 def contact(request):
-    form = ContactForm()
+    user = request.user
+    if request.method == 'POST':
+        # form = ContactForm()
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            user.profile.address = form.cleaned_data.get('address')
+            user.profile.city = form.cleaned_data.get('city')
+            user.profile.state = form.cleaned_data.get('state')
+            user.profile.country = form.cleaned_data.get('country')
+            user.profile.phone = form.cleaned_data.get('phone')
+            user.profile.zip = form.cleaned_data.get('zip')
+
+            # user.birth_date = form.cleaned_data.get('birth_date')
+            # user.profile.job_title = form.cleaned_data.get('job_title')  # profile is for user profile
+            # user.sex = form.cleaned_data.get('sex')
+            # user.email = form.cleaned_data.get('email')
+            # user.profile.url = form.cleaned_data.get('url')
+            # user.profile.location = form.cleaned_data.get('location')
+            # user.profile.about = form.cleaned_data.get('about')
+
+            user.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 'Your contact was successfully edited.')
+
+    else:
+        # form = ProfileForm(instance=user, initial={
+        #     'job_title': user.profile.job_title,
+        #     'url': user.profile.url,
+        #     'location': user.profile.location
+        #     })
+        form = ContactForm(instance=user, initial={
+            'address': user.profile.address,
+            'city': user.profile.city,
+            'state': user.profile.state,
+            'country': user.profile.country,
+            'phone': user.profile.phone,
+            'zip': user.profile.zip,
+        })
     return render(request, 'production/contact.html', {'form': form})
 
 
-# @login_required
+@login_required
 def picture(request):
     uploaded_picture = False
     try:
@@ -70,7 +114,7 @@ def picture(request):
                   {'uploaded_picture': uploaded_picture})
 
 
-# @login_required
+@login_required
 def upload_picture(request):
     try:
         profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
@@ -97,7 +141,7 @@ def upload_picture(request):
         return redirect('/picture/')
 
 
-# @login_required
+@login_required
 def save_uploaded_picture(request):
     try:
         x = int(request.POST.get('x'))
@@ -120,23 +164,22 @@ def save_uploaded_picture(request):
     return redirect('picture/')
 
 
-# @login_required
+@login_required
 def password(request):
-    # user = request.user
-    # if request.method == 'POST':
-    #     form = ChangePasswordForm(request.POST)
-    #     if form.is_valid():
-    #         new_password = form.cleaned_data.get('new_password')
-    #         user.set_password(new_password)
-    #         user.save()
-    #         update_session_auth_hash(request, user)
-    #         messages.add_message(request, messages.SUCCESS,
-    #                              'Your password was successfully changed.')
-    #         return redirect('password')
-    #
-    # else:
-    #     form = ChangePasswordForm(instance=user)
-    form = ChangePasswordForm()
+    user = request.user
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            new_password = form.cleaned_data.get('new_password')
+            user.set_password(new_password)
+            user.save()
+            update_session_auth_hash(request, user)
+            messages.add_message(request, messages.SUCCESS,
+                                 'Your password was successfully changed.')
+            return redirect('password/')
+
+    else:
+        form = ChangePasswordForm(instance=user)
     return render(request, 'production/password.html', {'form': form})
 
 
