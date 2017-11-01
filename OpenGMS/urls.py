@@ -36,6 +36,8 @@ urlpatterns = [
         client_auth_views.activate, name='activate'),
     url(r'^/pass?=success/', client_auth_views.regSuccess, name='/pass?=success/'),
 
+    # url(r'^all_products/$', core_views.allproducts, name='all_products'),
+
     url(r'^auth/', include('authentication.urls')),
     url(r'^officer/', include('officer.urls')),
     url(r'^client/', include('client.urls')),

@@ -6,7 +6,7 @@ from PIL import Image
 from django.conf import settings as django_settings
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
@@ -97,7 +97,7 @@ def contact(request):
     return render(request, 'client/client_contact.html', {'form': form})
 
 
-# @login_required
+@login_required(login_url='/login/')
 def picture(request):
     uploaded_picture = False
     try:
@@ -112,7 +112,7 @@ def picture(request):
                   {'uploaded_picture': uploaded_picture})
 
 
-# @login_required
+@login_required(login_url='/login/')
 def upload_picture(request):
     try:
         profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
@@ -139,7 +139,7 @@ def upload_picture(request):
         return redirect('/picture/')
 
 
-# @login_required
+@login_required(login_url='/login/')
 def save_uploaded_picture(request):
     try:
         x = int(request.POST.get('x'))
@@ -162,7 +162,7 @@ def save_uploaded_picture(request):
     return redirect('picture/')
 
 
-# @login_required
+@login_required(login_url='/login/')
 def password(request):
     user = request.user
     if request.method == 'POST':
@@ -193,25 +193,29 @@ def password(request):
 # def reset_account_pass(request):
 #     return render(request, 'dashboard/reset_account_pass.html')
 
-
+@login_required(login_url='/login/')
 def new_order(request):
     form = NewOrderForm()
     return render(request, 'client/client_new_order.html', {'form': form})
 
 
+@login_required(login_url='/login/')
 def order_list(request):
     return render(request, 'client/order_list.html')
 
 
+@login_required(login_url='/login/')
 def order_view(request):
     return render(request, 'client/order_view.html')
 
 
+@login_required(login_url='/login/')
 def order_edit(request):
     form = NewOrderForm()
     return render(request, 'client/order_edit.html', {'form': form})
 
 
+@login_required(login_url='/login/')
 def logout_view(request):
     logout(request)
     return render(request, 'core/login.html')

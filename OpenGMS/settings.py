@@ -52,6 +52,7 @@ INSTALLED_APPS = [
 
     # 3rd party app
     'phonenumber_field',
+    'guardian',
 
     #app
     'core',
@@ -177,6 +178,10 @@ ALLOWED_HOSTS = ['*']
 #         'template_debug.templatetags.debug_tags'
 #     ]
 
+
+# Guardian Settings
+GUARDIAN_RAISE_403 = True
+ANONYMOUS_USER_ID = -1
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'

@@ -23,5 +23,10 @@ urlpatterns = [
     url(r'^new_order', officer_views.new_order, name='new_order'),
     url(r'^order_list', officer_views.order_list, name='order_list'),
 
+    url(r'^add_product', officer_views.add_product, name='add_product'),
+    url(r'^all_products', officer_views.all_products, name='all_products'),
+    url(r'^(?P<slug>[\w-]+)/detail/', officer_views.product_details, name='detail'),
+    url(r'^(?P<slug>[\w-]+)/edit/', officer_views.product_edit, name='edit'),
+
     url(r'^logout', officer_views.logout_view, name='logout'),
 ]

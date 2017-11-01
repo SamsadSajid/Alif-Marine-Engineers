@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 import datetime
+from phonenumber_field.formfields import PhoneNumberField
+from .models import ProductList
 
 
 class ProfileForm(forms.ModelForm):
@@ -93,8 +95,8 @@ class ContactForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=30,
         required=True)
-    phone = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=True)
+    phone = PhoneNumberField(widget=forms.TextInput(attrs={'placeholder': 'Phone'}), label="Phone number",
+                             required=False)
     zip = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=True)
 
@@ -135,3 +137,32 @@ class NewOrderForm(forms.ModelForm):
         model = User
         fields = ['client_username', 'client_name', 'order_type', 'design', 'deadline',
                   'quantity', 'budget', 'shipping_address', 'specification']
+
+
+class ProductForm(forms.ModelForm):
+    product_id = forms.IntegerField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+    product_name = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        max_length=100,
+        required=True)
+    product_image = forms.FileField(
+        widget=forms.FileInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+    quantity = forms.IntegerField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=True
+    )
+    choice = (('available', 'available'), ('unavailable', 'unavailable'))
+    product_available = forms.ChoiceField(choices=choice)
+    product_description = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'rows': 4}),
+        max_length=250,
+        required=True)
+
+    class Meta:
+        model = ProductList
+        fields = ['product_id', 'product_name', 'product_image', 'quantity', 'product_available', 'product_description']

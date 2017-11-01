@@ -1,0 +1,76 @@
+{% extends 'dashboard/test.html' %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block content %}
+    <!-- page content -->
+        <div class="right_col" role="main">
+          <div class="">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3> All Products </h3>
+                </div>
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>List of All Products</h2>
+                    <div class="clearfix"></div>
+                  </div>
+
+                  <div class="x_content">
+
+                    <div class="row">
+
+{#                    edit from here  #}
+                      {% if product_list %}
+                          {% for product in product_list %}
+                            <div class="col-md-55">
+                                <div class="thumbnail">
+                                    <div class="image view view-first">
+                                        <img style="width: 100%; display: block;" src="{{ product.product_image.url }}" alt="image" />
+                                        <div class="mask">
+                                            <p>{{ product.product_name }}</p>
+                                            <div class="tools tools-bottom">
+                                                <a href="{% url 'officer:detail' product.slug%}"><i class="fa fa-link" title="Details"></i></a>
+                                                {% if user %}
+                                                    <a href="{% url 'officer:edit' product.slug%}"><i class="fa fa-pencil" title="Edit"></i></a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="caption">
+                                        <p>{{ product.product_name }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                          {% endfor %}
+{#                    upto here#}
+                      {% endif %}
+
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /page content -->
+{% endblock %}
+
+{% block js %}
+{% endblock %}

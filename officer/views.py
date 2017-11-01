@@ -10,10 +10,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
-from officer.form import ProfileForm, ChangePasswordForm, ContactForm, NewOrderForm
+from officer.form import ProfileForm, ChangePasswordForm, ContactForm, NewOrderForm, ProductForm
 from django.shortcuts import render
 from django_tables2 import RequestConfig
-from .models import Order_List
+from .models import ProductList
 from .tables import OrderTable
 from django.contrib.auth import logout
 
@@ -184,6 +184,7 @@ def password(request):
     return render(request, 'dashboard/password.html', {'form': form})
 
 
+@login_required
 def create_account(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -242,6 +243,116 @@ def order_list(request):
     # table = OrderTable(Order_List.objects.all())
     # RequestConfig(request).configure(table)
     return render(request, 'dashboard/order_list.html')
+
+
+@login_required
+def add_product(request):
+    user = request.user
+    product_list = ProductList()
+    if request.method == 'POST':
+        print ('yoo')
+        form = ProductForm(request.POST, request.FILES)
+        print ('yoo')
+        print (form)
+        if form.is_valid():
+            print ('yoo')
+            product_list.product_id = form.cleaned_data.get('product_id')
+            print (product_list.product_id)
+            product_list.product_name = form.cleaned_data.get('product_name')
+            product_list.uploaded_by = user
+            product_list.quantity = form.cleaned_data.get('quantity')
+            product_list.product_available = form.cleaned_data.get('product_available')
+            product_list.product_description = form.cleaned_data.get('product_description')
+            product_list.slug = product_list.product_name.replace(' ', '-')
+            product_list.product_image = request.FILES['product_image']
+            file_type = product_list.product_image.url.split('.')[-1]
+            file_type = file_type.lower()
+            product_list.save()
+
+            # product = form.save(commit=False)
+            # product.uploaded_by = user
+            # product.product_image = request.FILES['product_image']
+            # form.save()
+            # return render(request, 'dashboard/all_product.html', {'form': form})
+            return redirect('/officer/all_products/')
+        else:
+            form = ProductForm()
+            print (form.errors)
+            messages.add_message(request,
+                                 messages.ERROR,
+                                 "Submitted form is not valid! Try again.")
+            return render(request, 'dashboard/add_products.html', {'form': form})
+    else:
+        form = ProductForm(instance=product_list, initial={
+            'product_id': product_list.product_id,
+            'product_name': product_list.product_name,
+            'product_image': product_list.product_image,
+            'quantity': product_list.quantity,
+            'product_available': product_list.product_available,
+            'product_description': product_list.product_description
+        })
+        return render(request, 'dashboard/add_products.html', {'form': form})
+
+
+@login_required
+def all_products(request):
+    user = request.user
+    print (user)
+    product_list = ProductList.objects.all()
+    product_list_by_user = ProductList.objects.filter(uploaded_by=user)
+    # nicher line gula edit kora lagbe. Editing privilege deya lagbe. Bug ache niche
+    if product_list_by_user:
+        print ("mnm")
+        return render(request, 'dashboard/all_products.html', {'product_list': product_list, 'user': user})
+    else:
+        return render(request, 'dashboard/all_products.html', {'product_list': product_list})
+
+
+@login_required
+def product_details(request, slug):
+    product = get_object_or_404(ProductList, slug=slug)
+    return render(request, 'dashboard/products_detail.html', {'product': product})
+
+
+@login_required
+def product_edit(request, slug):
+    product = get_object_or_404(ProductList, slug=slug)
+    print (product)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)
+        print ('yoo')
+        if form.is_valid():
+            product.product_id = form.cleaned_data.get('product_id')
+            print (product.product_id)
+            product.product_name = form.cleaned_data.get('product_name')
+            product.quantity = form.cleaned_data.get('quantity')
+            product.product_available = form.cleaned_data.get('product_available')
+            product.product_description = form.cleaned_data.get('product_description')
+            product.slug = product.product_name.replace(' ', '-')
+            product.product_image = request.FILES['product_image']
+            file_type = product.product_image.url.split('.')[-1]
+            file_type = file_type.lower()
+            product.save()
+            messages.add_message(request,
+                                 messages.SUCCESS,
+                                 "Product information has been edited successfully.")
+            return render(request, 'dashboard/edit_product.html', {'form': form, 'product': product})
+        else:
+            print (form.errors)
+            messages.add_message(request,
+                                 messages.ERROR,
+                                 "Submitted form is not valid! Try again.")
+            return render(request, 'dashboard/edit_product.html')
+    else:
+        form = ProductForm(instance=product, initial={
+            'product_id': product.product_id,
+            'product_name': product.product_name,
+            'product_image': product.product_image,
+            'quantity': product.quantity,
+            'product_available': product.product_available,
+            'product_description': product.product_description
+        })
+        return render(request, 'dashboard/edit_product.html', {'form': form, 'product': product})
 
 
 def logout_view(request):

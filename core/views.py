@@ -67,7 +67,18 @@ def login_view(request):
 @login_required(login_url='/login/')
 def profile(request, username):
     user = get_object_or_404(User, username=username)
-    return render(request, 'client/client_profile.html', {
-        'user': user,
-    })
+    if user.profile.account_type == 0:
+        # return render(request, 'client/client_profile.html', {
+        # 'user': user,
+        # })
+        return redirect('/client/profile/')
+    elif user.profile.account_type == 1:
+        return redirect('/officer/profile')
+    elif user.profile.account_type == 2:
+        return redirect('/service/profile/')
+    elif user.profile.account_type == 3:
+        return redirect('/production/profile/')
 
+
+def allproducts(request):
+    return None

@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
+    <title>Alif Marine Engineers</title>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
       {% block head %}
     {% endblock %}
@@ -35,7 +35,7 @@
         <div class="col-md-3 left_col menu_fixed">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="personal_info.html" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+              <a href="#" class="site_title"><i class="fa fa-paw"></i> <span>Alif Marine Engineers</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -79,6 +79,7 @@
                     <ul class="nav child_menu">
                       <li><a href="{% url 'officer:new_order' %}"> New Order </a></li>
                       <li><a href="#"> New Form </a></li>
+                      <li><a href="{% url 'officer:add_product' %}"> Add Products </a></li>
                     </ul>
                   </li>
                   <li><a><i class="fa fa-info"></i> Change Data
@@ -91,6 +92,7 @@
                   </li>
                   <li><a><i class="fa fa-bar-chart-o"></i> Data Status <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
+                      <li><a href="{% url 'officer:all_products' %}"> View Products </a></li>
                       <li><a href="#"> Status </a></li>
                     </ul>
                   </li>
