@@ -237,10 +237,12 @@ def products(request):
 def product_details(request, slug):
     product = get_object_or_404(ProductList, slug=slug)
     product_review = ProductReview.objects.filter(product_id=product.product_id)
+    rating_count = get_object_or_404(Rating, object_id=product.id)
     # print (product_review.values(review))
     return render(request, 'client/products_detail.html', {
         'product': product,
-        'product_review': product_review
+        'product_review': product_review,
+        'rating_count': rating_count,
     })
 
 

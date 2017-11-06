@@ -55,17 +55,15 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-3">
-                        <span class="sr-only">Four out of Five Stars</span>
-                            <span class="glyphicon glyphicon-star" style="color: gold" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" style="color: gold" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" style="color: gold" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star" style="color: gold" aria-hidden="true"></span>
-                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
-                            <span class="label label-success">61</span>
+                    <div class="col-md-6">
+{#                        <span class="sr-only">Four out of Five Stars</span>#}
+                        <div class="col-md-3">
+                            <span class="label label-success">{{ rating_count.count }}</span>
+                        </div>
+                        {% ratings product %}
                     </div>
                     {% if user.is_authenticated %}
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <button type="button" class="btn btn-success" data-toggle="collapse"
                                data-target="#collapseExample">
                                 <i class="fa fa-edit m-right-xs"></i>
@@ -200,10 +198,13 @@
                             {% for p in product_review %}
                                 {% if p.review %}
                                     {{ p.review }}
-                                {% else %}
-                                    <p>Please Add A Review</p>
                                 {% endif %}
                             {% endfor %}
+                            {% load review_tag %}
+                            {% check_review_status product_review as status %}
+                            {% if not status %}
+                                <p>Write a Review...</p>
+                            {% endif %}
                         </p>
                     </div>
                 </div>
