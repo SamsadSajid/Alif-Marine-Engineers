@@ -11,6 +11,8 @@ from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from client.form import ProfileForm, ChangePasswordForm, ContactForm, NewOrderForm
+from officer.models import ProductList, ProductReview
+from star_ratings.models import Rating
 from django.shortcuts import render
 from django_tables2 import RequestConfig
 from .models import Order_List
@@ -213,6 +215,47 @@ def order_view(request):
 def order_edit(request):
     form = NewOrderForm()
     return render(request, 'client/order_edit.html', {'form': form})
+
+
+# view for all products. Even if a user is not authenticated, can view this page. Can view details of the
+# product. But cannot use 'add to cart' privilege!!!
+
+def products(request):
+    _products = ProductList.objects.all()
+    paginator = Paginator(_products, 9)
+    page = request.GET.get('page', 1)  # returns the 1st page
+    try:
+        product_list = paginator.page(page)
+    except PageNotAnInteger:
+        product_list = paginator.page(1)
+    except EmptyPage:
+        product_list = paginator.page(paginator.num_pages)
+
+    return render(request, 'client/all_products.html', {'product_list': product_list})
+
+
+def product_details(request, slug):
+    product = get_object_or_404(ProductList, slug=slug)
+    product_review = ProductReview.objects.filter(product_id=product.product_id)
+    # print (product_review.values(review))
+    return render(request, 'client/products_detail.html', {
+        'product': product,
+        'product_review': product_review
+    })
+
+
+def review(request, pk):
+    user = request.user
+    product = get_object_or_404(ProductList, id=pk)
+    rating = get_object_or_404(Rating, object_id=pk)
+    product_review = ProductReview()
+    product_review.product_id = product.product_id
+    product_review.product_name = product.product_name
+    product_review.rank = rating.total
+    product_review.reviewed_by = user
+    product_review.review = request.POST.get('comment')
+    product_review.save()
+    return redirect('detail', slug=product.slug)
 
 
 @login_required(login_url='/login/')

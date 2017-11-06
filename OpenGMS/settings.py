@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # 3rd party app
     'phonenumber_field',
     'guardian',
+    'star_ratings',
 
     #app
     'core',
@@ -178,6 +179,8 @@ ALLOWED_HOSTS = ['*']
 #         'template_debug.templatetags.debug_tags'
 #     ]
 
+# django-star-rating settings
+STAR_RATINGS_RERATE = False
 
 # Guardian Settings
 GUARDIAN_RAISE_403 = True

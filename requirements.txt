@@ -17,3 +17,4 @@ django-mailgun
 sendgrid-django==4.0.4
 django-phonenumber-field
 django-guardian
+django-star-ratings

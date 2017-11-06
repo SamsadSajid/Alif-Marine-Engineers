@@ -23,6 +23,7 @@ from django.views import generic
 
 from core import views as core_views
 from authentication import views as client_auth_views
+from client import views as client_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -43,6 +44,13 @@ urlpatterns = [
     url(r'^client/', include('client.urls')),
     url(r'^production/', include('production.urls')),
     url(r'^service/', include('service.urls')),
+
+    # products url
+    url(r'^products', client_views.products, name='products'),
+    url(r'^(?P<slug>[\w-]+)/detail/', client_views.product_details, name='detail'),
+    url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
+    url(r'^(?P<pk>[0-9]+)/review', client_views.review, name='review'),
+
 
     url(r'^(?P<username>[^/]+)/$', core_views.profile, name='profile'),
     url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),

@@ -1,0 +1,29 @@
+.monospaced {
+	font-family: 'Ubuntu Mono', monospaced ;
+}
+
+.add-to-cart .btn-qty {
+  width: 54px;
+  height: 46px;
+}
+
+.add-to-cart .btn { border-radius: 0; }
+
+.image-responsive {
+    width: 500px;
+    height: 500px;
+    margin-top: 30px;
+    margin-right: 10px;
+}
+
+.description{
+    margin-top: 10px;
+}
+
+.separator {
+    border-bottom: 1px solid;
+}
+
+.mytab{
+    margin-top: 30px;
+}

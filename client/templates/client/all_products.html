@@ -1,0 +1,98 @@
+{% extends 'template/navbar.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% block head %}
+    <!-- Font Awesome -->
+    <link href="{% static 'extra/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+{#    <!-- NProgress -->#}
+{#    <link href="{% static 'extra/nprogress.css' %}" rel="stylesheet">#}
+{#    <!-- jQuery custom content scroller -->#}
+{#    <link href="{% static 'extra/jquery.mCustomScrollbar.min.css' %}" rel="stylesheet">#}
+    <!-- Custom styles for this template -->
+    <link href="{% static 'css/album.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <!-- page content -->
+
+
+
+    <section class="jumbotron text-center">
+      <div class="container">
+        <h1 class="jumbotron-heading">Products List</h1>
+        <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+        <p>
+          <a href="#" class="btn btn-primary">Main call to action</a>
+          <a href="#" class="btn btn-secondary">Secondary action</a>
+        </p>
+      </div>
+    </section>
+
+    <div class="album text-muted">
+      <div class="container">
+
+        <div class="row">
+          {% for product in product_list %}
+            <div class="card">
+                <img src="{{ product.product_image.url }}" alt="Card image cap">
+                <p class="card-text">
+                    <a href="{% url 'detail' product.slug%}">
+                        {{ product.product_name }}
+                    </a>
+                </p>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="center">
+            <div class="pagination ">
+                {% if product_list.has_previous %}
+                    <li><a href="?page={{ product_list.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="disabled"><a><span>&laquo;</span></a></li>
+                {% endif %}
+                {% for i in product_list.paginator.page_range %}
+                    {% if product_list.number == i %}
+                        <li class="active">
+                            <span>
+                                <a href="?page={{ i }}" class="active"> {{ i }} </a>
+                                <span class="sr-only">
+                                    (current)
+                                </span>
+                            </span>
+                        </li>
+                    {% else %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if product_list.has_next %}
+                    <li><a href="?page={{ product_list.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="disabled"><a><span>&raquo;</span></a></li>
+                {% endif %}
+            </div>
+        </div>
+      </div>
+    </div>
+
+
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Back to top</a>
+        </p>
+        <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+        <p>New to Bootstrap? <a href="https://v4-alpha.getbootstrap.com/">Visit the homepage</a> or read our <a href="https://v4-alpha.getbootstrap.com/getting-started/introduction/">getting started guide</a>.</p>
+      </div>
+    </footer>
+
+    <!-- page content -->
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/holder.min.js' %}"></script>
+    <script>
+      $(function () {
+        Holder.addTheme("thumb", { background: "#55595c", foreground: "#eceeef", text: "Thumbnail" });
+      });
+    </script>
+{% endblock %}

@@ -34,17 +34,6 @@
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
-                      <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
-                        <ul class="dropdown-menu" role="menu">
-                          <li><a href="#">Settings 1</a>
-                          </li>
-                          <li><a href="#">Settings 2</a>
-                          </li>
-                        </ul>
-                      </li>
-                      <li><a class="close-link"><i class="fa fa-close"></i></a>
-                      </li>
                     </ul>
                     <div class="clearfix"></div>
                   </div>
@@ -73,8 +62,11 @@
                     <div class="col-md-5 col-sm-5 col-xs-12" style="border:0px solid #e5e5e5;">
 
                       <h3 class="prod_title">{{ product.product_name }}</h3>
-
-                      <p>{{ product.product_description }}</p>
+                      {% if product.product_porichiti %}
+                        <p>{{ product.product_porichiti }}</p>
+                      {% else %}
+                        <p>No Description is Available</p>
+                      {% endif %}
                       <br />
 
                       <div class="">
@@ -122,8 +114,10 @@
 
                       <div class="">
                         <div class="product_price">
-                          <h1 class="price">Ksh80.00</h1>
-                          <span class="price-tax">Ex Tax: Ksh80.00</span>
+                          <span class="price-tax">Price of the Product</span>
+                          <h1 class="price">
+                              <i class="fa fa-dollar">{{ product.price }}</i>
+                          </h1>
                           <br>
                         </div>
                       </div>
@@ -136,25 +130,34 @@
 
                       <div class="" role="tabpanel" data-example-id="togglable-tabs">
                         <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Home</a>
+                          <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Description</a>
                           </li>
-                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Profile</a>
+                          <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Notes</a>
                           </li>
-                          <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
+                          <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Features</a>
                           </li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                           <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
-                            <p>Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher
-                              synth. Cosby sweater eu banh mi, qui irure terr.</p>
+                            {% if product.product_description %}
+                              <p>{{ product.product_description }}</p>
+                            {% else %}
+                              <p>No Description Is Available</p>
+                            {% endif %}
                           </div>
                           <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-                            <p>Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
-                              booth letterpress, commodo enim craft beer mlkshk aliquip</p>
+                            {% if product.product_notes %}
+                              <p>{{ product.product_notes }}</p>
+                            {% else %}
+                              <p>No Note Is Available</p>
+                            {% endif %}
                           </div>
                           <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-                            <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
-                              photo booth letterpress, commodo enim craft beer mlkshk </p>
+                            {% if product.product_features %}
+                              <p>{{ product.product_features }}</p>
+                            {% else %}
+                              <p>No Feature Is Available</p>
+                            {% endif %}
                           </div>
                         </div>
                       </div>

@@ -152,17 +152,34 @@ class ProductForm(forms.ModelForm):
         widget=forms.FileInput(attrs={'class': 'form-control'}),
         required=True
     )
+    price = forms.DecimalField(
+        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        required=True
+    )
     quantity = forms.IntegerField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         required=True
     )
     choice = (('available', 'available'), ('unavailable', 'unavailable'))
     product_available = forms.ChoiceField(choices=choice)
+    product_porichiti = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        max_length=100,
+        required=True)
     product_description = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'rows': 4}),
-        max_length=250,
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        max_length=300,
+        required=True)
+    product_notes = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        max_length=300,
+        required=True)
+    product_features = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        max_length=300,
         required=True)
 
     class Meta:
         model = ProductList
-        fields = ['product_id', 'product_name', 'product_image', 'quantity', 'product_available', 'product_description']
+        fields = ['product_id', 'product_name', 'product_image', 'price', 'quantity', 'product_available',
+                  'product_porichiti', 'product_description', 'product_notes', 'product_features']

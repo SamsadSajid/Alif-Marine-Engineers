@@ -15,6 +15,7 @@
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/carousel.css' %}" rel="stylesheet">
+    {% block head %}{% endblock %}
   </head>
   <body>
 
@@ -29,7 +30,7 @@
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Products</a>
+            <a class="nav-link" href="{% url 'products' %}">Products</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">New Arrival</a>

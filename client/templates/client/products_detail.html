@@ -1,0 +1,222 @@
+{% extends 'template/navbar.html' %}
+{% load i18n %}
+{% load staticfiles %}
+{% load ratings %}
+{% block head %}
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>#}
+
+{#    <!-- Font Awesome -->#}
+{#    <link href="{% static 'extra/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">#}
+{#    <!-- NProgress -->#}
+{#    <link href="{% static 'extra/nprogress.css' %}" rel="stylesheet">#}
+{#    <!-- jQuery custom content scroller -->#}
+{#    <link href="{% static 'extra/jquery.mCustomScrollbar.min.css' %}" rel="stylesheet">#}
+{#    <link href="{% static 'extra/bootstrap.min.css' %}" rel="stylesheet">#}
+    <!-- Custom Theme Style -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Font Awesome -->
+    <link href="{% static 'extra/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+    <link href='https://fonts.googleapis.com/css?family=Ubuntu+Mono' rel='stylesheet' type='text/css'>
+    <link href="{% static 'css/product_details.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+
+{% endblock %}
+
+{% block content %}
+    <!-- page content -->
+
+    <div class="container" id="product-section">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ product.product_image.url }}" alt="image" class="image-responsive"/>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>{{ product.product_name }}</h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <span class="label label-primary">Vintage</span>
+                        <span class="monospaced">No. {{ product.product_id }}</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="description">
+                            {% if product.product_porichiti%}
+                                {{ product.product_porichiti }}
+                            {% else %}
+                                <p>No Description Is Available</p>
+                            {% endif %}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <span class="sr-only">Four out of Five Stars</span>
+                            <span class="glyphicon glyphicon-star" style="color: gold" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" style="color: gold" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" style="color: gold" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star" style="color: gold" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                            <span class="label label-success">61</span>
+                    </div>
+                    {% if user.is_authenticated %}
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-success" data-toggle="collapse"
+                               data-target="#collapseExample">
+                                <i class="fa fa-edit m-right-xs"></i>
+                                <span class="monospaced">Write a Review</span>
+                            </button>
+                            <div class="collapse" id="collapseExample">
+{#                                rating star boshbe ei jaygay#}
+                                <div id="el">
+                                    {% ratings product %}
+                                </div>
+                                <form role="form" method="post"
+                                      action="{% url 'review' pk=product.id%}">
+                                    {% csrf_token %}
+                                    <textarea placeholder="Write a Review..." rows="4" cols="50" name="comment"></textarea>
+                                    <button class="btn btn-info">
+                                        <i class="fa fa-send"></i>
+                                        <span class="monospaced">Submit</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-12 bottom-rule">
+                        <h2 class="product-price">
+                            <i class="fa fa-dollar">
+                                {{ product.price }}
+                            </i>
+                        </h2>
+                    </div>
+                    <div class="col-md-12 bottom-rule">
+                        {% if product.product_available == 'available' %}
+                            <i class="fa fa-check" style="color: green"></i>
+                            <span class="monospaced" style="color: green"><strong>In Stock</strong></span>
+                        {% else %}
+                            <i class="fa fa-times" style="color: red"></i>
+                            <span class="monospaced" style="color: red"><strong>Not In Stock</strong></span>
+                        {% endif %}
+                    </div>
+                </div><!-- end row -->
+                <hr class="separator">
+
+                <div class="row add-to-cart">
+                    <div class="col-md-5 product-qty">
+                        <span class="btn btn-default btn-lg btn-qty" onclick="incrementValue()">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true">
+                            </span>
+                        </span>
+
+                        <input class="btn btn-default btn-lg btn-qty" id="quantity" value="0" />
+
+                        <span class="btn btn-default btn-lg btn-qty" onclick="decrementValue()">
+                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+                        </span>
+                    </div>
+
+                    <div class="col-md-4">
+                        <button class="btn btn-lg btn-brand" style="color: deeppink">
+                            <i class="fa fa-cart-plus"></i>
+                            <span class="monospaced">Add to Cart</span>
+                        </button>
+                        <button class="btn btn-lg btn-brand" style="color: deeppink">
+                            <i class="fa fa-heart" style="color: deeppink"></i>
+                            <span class="monospaced">Add to Wish List</span>
+                        </button>
+                    </div>
+                </div><!-- end row -->
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs mytab" role="tablist">
+                    <li role="presentation" class="active">
+                        <a href="#description"
+                            aria-controls="description"
+                            role="tab"
+                            data-toggle="tab"
+                            >Description</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#features"
+                            aria-controls="features"
+                            role="tab"
+                            data-toggle="tab"
+                            >Features</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#notes"
+                            aria-controls="notes"
+                            role="tab"
+                            data-toggle="tab"
+                            >Notes</a>
+                    </li>
+                    <li role="presentation">
+                        <a href="#reviews"
+                            aria-controls="reviews"
+                            role="tab"
+                            data-toggle="tab"
+                            >Reviews</a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="description">
+                        <p class="top-10">
+                            {% if product.product_description %}
+                                {{ product.product_description }}
+                            {% else %}
+                                <p>No Description Is Available</p>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane top-10" id="features">
+                       <p class="top-10">
+                            {% if product.product_features %}
+                                {{ product.product_features }}
+                            {% else %}
+                                <p>No Feature Is Available</p>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="notes">
+                        <p class="top-10">
+                            {% if product.product_notes %}
+                                {{ product.product_notes }}
+                            {% else %}
+                                <p>No Note Is Available</p>
+                            {% endif %}
+                        </p>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="reviews">
+                        <p class="top-10">
+                            {% for p in product_review %}
+                                {% if p.review %}
+                                    {{ p.review }}
+                                {% else %}
+                                    <p>Please Add A Review</p>
+                                {% endif %}
+                            {% endfor %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- /page content -->
+{% endblock %}
+
+{% block js %}
+  <script src="{% static 'js/product_details.js' %}"></script>
+  <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+{% endblock %}
