@@ -26,7 +26,14 @@
 {% block content %}
     <!-- page content -->
 
+
     <div class="container" id="product-section">
+
+        <ol class="breadcrumb">
+            <li><a href="{% url 'products' %}">{% trans 'All Products' %}</a></li>
+            <li class="active">{% trans 'Details' %}</li>
+        </ol>
+
         <div class="row">
             <div class="col-md-6">
                 <img src="{{ product.product_image.url }}" alt="image" class="image-responsive"/>
