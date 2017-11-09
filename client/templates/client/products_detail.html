@@ -54,9 +54,9 @@
                     <div class="col-md-12">
                         <p class="description">
                             {% if product.product_porichiti%}
-                                {{ product.product_porichiti }}
+                                <span class="monospaced">{{ product.product_porichiti }}</span>
                             {% else %}
-                                <p>No Description Is Available</p>
+                                <p><span class="monospaced"><i>No Description Is Available</i></span></p>
                             {% endif %}
                         </p>
                     </div>
@@ -115,24 +115,30 @@
                 <hr class="separator">
 
                 <div class="row add-to-cart">
-                    <div class="col-md-5 product-qty">
-                        <span class="btn btn-default btn-lg btn-qty" onclick="incrementValue()">
-                            <span class="glyphicon glyphicon-plus" aria-hidden="true">
-                            </span>
-                        </span>
+                    <form action="{% url "cart:cart_add" product.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="col-md-5 product-qty">
+{#                            <span class="btn btn-default btn-lg btn-qty" onclick="incrementValue()">#}
+{#                                <span class="glyphicon glyphicon-plus" aria-hidden="true">#}
+{#                                </span>#}
+{#                            </span>#}
+{##}
+{#                            <input class="btn btn-default btn-lg btn-qty" id="product_quantity" value="0" />#}
+{##}
+{#                            <span class="btn btn-default btn-lg btn-qty" onclick="decrementValue()">#}
+{#                                <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>#}
+{#                            </span>#}
+                            {{ cart_product_form }}
+                        </div>
 
-                        <input class="btn btn-default btn-lg btn-qty" id="quantity" value="0" />
-
-                        <span class="btn btn-default btn-lg btn-qty" onclick="decrementValue()">
-                            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
-                        </span>
-                    </div>
-
+                        <div class="col-md-4">
+                            <button class="btn btn-lg btn-brand" style="color: deeppink">
+                                <i class="fa fa-cart-plus"></i>
+                                <span class="monospaced">Add to Cart</span>
+                            </button>
+                        </div>
+                    </form>
                     <div class="col-md-4">
-                        <button class="btn btn-lg btn-brand" style="color: deeppink">
-                            <i class="fa fa-cart-plus"></i>
-                            <span class="monospaced">Add to Cart</span>
-                        </button>
                         <button class="btn btn-lg btn-brand" style="color: deeppink">
                             <i class="fa fa-heart" style="color: deeppink"></i>
                             <span class="monospaced">Add to Wish List</span>
@@ -176,27 +182,33 @@
                     <div role="tabpanel" class="tab-pane active" id="description">
                         <p class="top-10">
                             {% if product.product_description %}
-                                {{ product.product_description }}
+                                <p>
+                                    <span class="monospaced">{{ product.product_description }}</span>
+                                </p>
                             {% else %}
-                                <p>No Description Is Available</p>
+                                <p><span class="monospaced"><i>No Description Is Available</i></span></p>
                             {% endif %}
                         </p>
                     </div>
                     <div role="tabpanel" class="tab-pane top-10" id="features">
                        <p class="top-10">
                             {% if product.product_features %}
-                                {{ product.product_features }}
+                                <p>
+                                    <span class="monospaced">{{ product.product_features }}</span>
+                                </p>
                             {% else %}
-                                <p>No Feature Is Available</p>
+                                <p><span class="monospaced"><i>No Feature Is Available</i></span></p>
                             {% endif %}
                         </p>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="notes">
                         <p class="top-10">
                             {% if product.product_notes %}
-                                {{ product.product_notes }}
+                                <p>
+                                    <span class="monospaced">{{ product.product_notes }}</span>
+                                </p>
                             {% else %}
-                                <p>No Note Is Available</p>
+                                <p><span class="monospaced"><i>No Note Is Available</i></span></p>
                             {% endif %}
                         </p>
                     </div>
@@ -204,7 +216,23 @@
                         <p class="top-10">
                             {% for p in product_review %}
                                 {% if p.review %}
-                                    {{ p.review }}
+                                    <p>
+                                        <span class="monospaced" style="color: darkgray"> {{ p.reviewed_by }} </span>
+                                        <br>
+                                        <span class="monospaced">{{ p.reviewed_at }}</span>
+                                        <br>
+                                        <span class="monospaced"><i>{{ p.review }}</i></span>
+                                    </p>
+{#                                    <div class="col-md-3">#}
+{#                                        <div class="col-md3">#}
+{#                                            {{ p.reviewed_by }}#}
+{#                                            {{ p.reviewed_at }}#}
+{#                                        </div>#}
+{#                                        <div class="col-md-3">#}
+{#                                            {{ p.review }}#}
+{#                                        </div>#}
+{#                                        <br>#}
+{#                                    </div>#}
                                 {% endif %}
                             {% endfor %}
                             {% load review_tag %}
@@ -223,7 +251,7 @@
 {% endblock %}
 
 {% block js %}
-  <script src="{% static 'js/product_details.js' %}"></script>
+{#  <script src="{% static 'js/product_details.js' %}"></script>#}
   <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>

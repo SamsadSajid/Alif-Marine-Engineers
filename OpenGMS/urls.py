@@ -51,6 +51,9 @@ urlpatterns = [
     url(r'^ratings/', include('star_ratings.urls', namespace='ratings', app_name='ratings')),
     url(r'^(?P<pk>[0-9]+)/review', client_views.review, name='review'),
 
+    # cart url
+    url(r'^cart/', include('cart.urls', namespace='cart')),
+
 
     url(r'^(?P<username>[^/]+)/$', core_views.profile, name='profile'),
     url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),

@@ -13,6 +13,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from client.form import ProfileForm, ChangePasswordForm, ContactForm, NewOrderForm
 from officer.models import ProductList, ProductReview
 from star_ratings.models import Rating
+from cart.forms import CartAddProductForm
 from django.shortcuts import render
 from django_tables2 import RequestConfig
 from .models import Order_List
@@ -239,20 +240,25 @@ def product_details(request, slug):
     product_review = ProductReview.objects.filter(product_id=product.product_id)
     rating_count = Rating.objects.filter(object_id=product.id)
     # print (product_review.values(review))
+    cart_product_form = CartAddProductForm()
     return render(request, 'client/products_detail.html', {
         'product': product,
         'product_review': product_review,
         'rating_count': rating_count,
+        'cart_product_form': cart_product_form,
     })
 
 
 def review(request, pk):
     user = request.user
     product = get_object_or_404(ProductList, id=pk)
-    rating = Rating.objects.filter(object_id=pk)
+    # print (product)
+    rating = Rating.objects.get(object_id=pk)
+    # print ('rating is {}'.format(rating))
     product_review = ProductReview()
     product_review.product_id = product.product_id
     product_review.product_name = product.product_name
+    # print('rating {}'.format(rating.object_id))
     product_review.rank = rating.total
     product_review.reviewed_by = user
     product_review.review = request.POST.get('comment')

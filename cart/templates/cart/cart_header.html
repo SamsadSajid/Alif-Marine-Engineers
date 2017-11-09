@@ -1,0 +1,38 @@
+{% extends 'template/navbar.html' %}
+{% load static i18n%}
+
+{% block head %}
+    <!-- Font Awesome -->
+    <link href="{% static 'extra/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/detail.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div id="header">
+        <a href="#" class="logo">My shop</a>
+    </div>
+    <ol class="breadcrumb">
+        <li><a href="#">{% trans 'Home' %}</a></li>
+        <li><a href="{% url 'products' %}">{% trans 'Products' %}</a></li>
+{#      <li class="active">{% trans 'Details' %}</li>#}
+        <li class="active">{% trans 'My Cart' %}</li>
+    </ol>
+    <div id="subheader">
+        <div class="cart">
+            {% with total_items=cart|length %}
+                {% if cart|length > 0 %}
+                    Your cart:
+                    <a href="{% url "cart:cart_detail" %}">
+                        {{ total_items }} item{{ total_items|pluralize }}, ${{ cart.get_total_price }}
+                    </a>
+                {% else %}
+                    Your cart is empty.
+                {% endif %}
+            {% endwith %}
+        </div>
+    </div>
+    <div id="content">
+        {% block main %}
+        {% endblock %}
+    </div>
+{% endblock %}

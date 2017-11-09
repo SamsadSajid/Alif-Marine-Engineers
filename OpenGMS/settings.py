@@ -62,6 +62,7 @@ INSTALLED_APPS = [
     'client',
     'production',
     'service',
+    'cart',
 ]
 
 MIDDLEWARE = [
@@ -181,6 +182,9 @@ ALLOWED_HOSTS = ['*']
 
 # django-star-rating settings
 STAR_RATINGS_RERATE = False
+
+# cart session id for cart
+CART_SESSION_ID = 'cart'
 
 # Guardian Settings
 GUARDIAN_RAISE_403 = True
