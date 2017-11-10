@@ -36,9 +36,14 @@ def order_create(request):
                                  'Submitted form contains invalid data!')
             return render('order/create.html', {'form': form})
     else:
-        form = OrderCreateForm()
-    return render(request, 'order/create.html', {'cart': cart,
-                                                 'form': form})
+        if cart:
+            form = OrderCreateForm()
+            return render(request, 'order/create.html', {'cart': cart,
+                                                         'form': form})
+        else:
+            messages.add_message(request, messages.ERROR,
+                                 'Your Cart is Empty. Please Shop with us!')
+            return render(request, 'cart/detail.html')
 
 
 def success(request):

@@ -21,7 +21,7 @@ urlpatterns = [
 
     url(r'^new_order', client_views.new_order, name='new_order'),
     url(r'^order_list', client_views.order_list, name='order_list'),
-    url(r'^new_order', client_views.order_view, name='order_view'),
+    url(r'^(?P<pk>[0-9]+)/order_view', client_views.order_view, name='order_view'),
     url(r'^order_list', client_views.order_edit, name='order_edit'),
 
     url(r'^logout', client_views.logout_view, name='logout'),

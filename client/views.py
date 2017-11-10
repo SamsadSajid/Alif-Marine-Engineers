@@ -16,7 +16,7 @@ from star_ratings.models import Rating
 from cart.forms import CartAddProductForm
 from django.shortcuts import render
 from django_tables2 import RequestConfig
-from .models import Order_List
+from order.models import Order, OrderItem
 from django.contrib.auth import logout
 # from .tables import OrderTable
 
@@ -204,12 +204,19 @@ def new_order(request):
 
 @login_required(login_url='/login/')
 def order_list(request):
-    return render(request, 'client/order_list.html')
+    user = request.user
+    orders = Order.objects.filter(email=user.email)
+    print (orders)
+    return render(request, 'client/order_list.html', {'orders': orders})
 
 
 @login_required(login_url='/login/')
-def order_view(request):
-    return render(request, 'client/order_view.html')
+def order_view(request, pk):
+    user = request.user
+    order = Order.objects.get(id=pk)
+    order_item = OrderItem.objects.filter(order_id=pk)
+    return render(request, 'client/order_view.html', {'order_item': order_item,
+                                                      'order': order})
 
 
 @login_required(login_url='/login/')
