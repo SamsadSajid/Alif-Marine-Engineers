@@ -54,6 +54,8 @@ urlpatterns = [
     # cart url
     url(r'^cart/', include('cart.urls', namespace='cart')),
 
+    # order url
+    url(r'^order/', include('order.urls', namespace='order')),
 
     url(r'^(?P<username>[^/]+)/$', core_views.profile, name='profile'),
     url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
