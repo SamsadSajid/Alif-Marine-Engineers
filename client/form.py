@@ -90,9 +90,10 @@ class ContactForm(forms.ModelForm):
     # phone = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}),
     #     required=True)
     phone = PhoneNumberField(widget=forms.TextInput(attrs={'placeholder': 'Phone'}), label="Phone number",
-                            required=False)
+                             required=False, help_text='+ Country Code 11 digit phone\n'
+                                                       'e.g. +8801XXXXXXXXX')
     zip = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=True)
+                             required=True)
 
     class Meta:
         model = User

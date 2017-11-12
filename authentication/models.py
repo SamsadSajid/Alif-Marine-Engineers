@@ -3,7 +3,7 @@ import hashlib
 import os.path
 import urllib
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db import models
 from django.db.models.signals import post_save
 from django.utils.encoding import python_2_unicode_compatible
@@ -18,7 +18,7 @@ class Profile(models.Model):
     # url = models.CharField(max_length=50, null=True, blank=True)
     # job_title = models.CharField(max_length=50, null=True, blank=True)
     user_sex = (('MALE', 'Male'), ('FEMALE', 'Female'))
-    sex = models.CharField(max_length=6, default='Male', choices=user_sex)
+    sex = models.CharField(max_length=6, default='Choose an option', choices=user_sex)
     address = models.CharField(max_length=250, null=True, blank=True)
     city = models.CharField(max_length=250, null=True, blank=True)
     state = models.CharField(max_length=250, null=True, blank=True)
@@ -110,25 +110,24 @@ class Profile(models.Model):
 class Employee(models.Model):
     user = models.OneToOneField(User)
     manager = models.ForeignKey('self', null=True, on_delete=models.SET_NULL)
-    # profile = models.OneToOneField(Profile)
-    # date_of_birth = models.DateField(null=True)
-    # sex = models.CharField(max_length=6)
-    designation = models.CharField(max_length=6)
+    desg = (('Senior', 'Senior Officer'), ('Junior', 'Junior Officer'))
+    designation = models.CharField(max_length=20, choices=desg)
 
     class Meta:
         db_table = 'auth_employee'
 
+    def __str__(self):
+        return self.user.username
+
 
 class Client(models.Model):
-    # profile = models.OneToOneField(Profile)
     user = models.OneToOneField(User)
-    # company_name = models.CharField(max_length=150)
-    # registration_info = models.CharField(max_length=150)
-    # website = models.URLField(max_length=200)
-    # additional_info = models.CharField(max_length=200)
 
     class Meta:
         db_table = 'auth_client'
+
+    def __str__(self):
+        return self.user.username
 
 
 @receiver(post_save, sender=User)
@@ -143,6 +142,9 @@ def update_user_profile(sender, instance, created, **kwargs):
         else:
             instance.client.save()
 
+        client_group, created = Group.objects.get_or_create(name='client_group')
+        instance.groups.add(client_group)
+
             # try:
             #     client = Client.objects.filter(user=instance)
             #     instance.client.save()
@@ -156,3 +158,15 @@ def update_user_profile(sender, instance, created, **kwargs):
             instance.employee.save()
         else:
             instance.employee.save()
+
+    if instance.profile.account_type == 1:
+        officer_group, created = Group.objects.get_or_create(name='officer_group')
+        instance.groups.add(officer_group)
+
+    if instance.profile.account_type == 2:
+        service_group, created = Group.objects.get_or_create(name='service_group')
+        instance.groups.add(service_group)
+
+    if instance.profile.account_type == 3:
+        production_group, created = Group.objects.get_or_create(name='production_group')
+        instance.groups.add(production_group)

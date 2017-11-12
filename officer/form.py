@@ -15,29 +15,20 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=True)
-    birth_date = forms.DateField(
-        widget=forms.DateInput,
-        help_text=datetime.date.today, required=True)
-    user_sex = ( ('MALE', 'Male'), ('FEMALE', 'Female') )
+    user_sex = (('Choose', 'Choose an option'), ('MALE', 'Male'), ('FEMALE', 'Female') )
     sex = forms.ChoiceField(choices=user_sex)
-    user_designation = ( ('SENIOR', 'Senior Officer'), ('JUNIOR', 'Junior Officer') )
-    designation = forms.ChoiceField(choices=user_designation)
-    job_title = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
-        max_length=50,
-        required=True)
-    email = forms.CharField(
+    email = forms.EmailField(
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=75,
         required=True)
     about = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'rows': 4}),
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         max_length=350,
         required=True)
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'birth_date', 'sex', 'designation', 'job_title',
+        fields = ['first_name', 'last_name', 'sex',
                   'email', 'about']
 
 
@@ -96,9 +87,10 @@ class ContactForm(forms.ModelForm):
         max_length=30,
         required=True)
     phone = PhoneNumberField(widget=forms.TextInput(attrs={'placeholder': 'Phone'}), label="Phone number",
-                             required=False)
+                             required=False, help_text='+ Country Code 11 digit phone\n'
+                                                       'e.g. +8801XXXXXXXXX')
     zip = forms.IntegerField(widget=forms.TextInput(attrs={'class': 'form-control'}),
-        required=True)
+                             required=True)
 
     class Meta:
         model = User

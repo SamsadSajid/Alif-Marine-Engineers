@@ -7,6 +7,7 @@ from django.conf import settings as django_settings
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
@@ -192,3 +193,8 @@ def order_list(request):
     # table = OrderTable(Order_List.objects.all())
     # RequestConfig(request).configure(table)
     return render(request, 'production/order_list.html')
+
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'core/login.html')

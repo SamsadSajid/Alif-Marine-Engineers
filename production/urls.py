@@ -17,4 +17,6 @@ urlpatterns = [
 
     url(r'^new_order', production_views.new_order, name='new_order'),
     url(r'^order_list', production_views.order_list, name='order_list'),
+
+    url(r'^logout', production_views.logout_view, name='logout'),
 ]

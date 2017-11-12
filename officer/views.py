@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
+from user_group.check_group import group_required
 from officer.form import ProfileForm, ChangePasswordForm, ContactForm, NewOrderForm, ProductForm
 from django.shortcuts import render
 from django_tables2 import RequestConfig
@@ -24,6 +25,7 @@ __FILE_TYPES = ['zip']
 
 
 @login_required
+@group_required('officer_group')
 def profile(request):
     user = request.user
     if request.method == 'POST':
@@ -57,6 +59,7 @@ def profile(request):
 
 
 @login_required
+@group_required('officer_group')
 def contact(request):
     user = request.user
     if request.method == 'POST':
@@ -101,6 +104,7 @@ def contact(request):
 
 
 @login_required
+@group_required('officer_group')
 def picture(request):
     uploaded_picture = False
     try:
@@ -116,6 +120,7 @@ def picture(request):
 
 
 @login_required
+@group_required('officer_group')
 def upload_picture(request):
     try:
         profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
@@ -143,6 +148,7 @@ def upload_picture(request):
 
 
 @login_required
+@group_required('officer_group')
 def save_uploaded_picture(request):
     try:
         x = int(request.POST.get('x'))
@@ -166,6 +172,7 @@ def save_uploaded_picture(request):
 
 
 @login_required
+@group_required('officer_group')
 def password(request):
     user = request.user
     if request.method == 'POST':
@@ -185,6 +192,7 @@ def password(request):
 
 
 @login_required
+@group_required('officer_group')
 def create_account(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -246,6 +254,7 @@ def order_list(request):
 
 
 @login_required
+@group_required('officer_group')
 def add_product(request):
     user = request.user
     product_list = ProductList()
@@ -295,6 +304,7 @@ def add_product(request):
 
 
 @login_required
+@group_required('officer_group')
 def all_products(request):
     user = request.user
     print (user)
@@ -309,12 +319,14 @@ def all_products(request):
 
 
 @login_required
+@group_required('officer_group')
 def product_details(request, slug):
     product = get_object_or_404(ProductList, slug=slug)
     return render(request, 'dashboard/products_detail.html', {'product': product})
 
 
 @login_required
+@group_required('officer_group')
 def product_edit(request, slug):
     product = get_object_or_404(ProductList, slug=slug)
     print (product)
@@ -355,6 +367,7 @@ def product_edit(request, slug):
         return render(request, 'dashboard/edit_product.html', {'form': form, 'product': product})
 
 
+@group_required('officer_group')
 def logout_view(request):
     logout(request)
     return render(request, 'core/login.html')
