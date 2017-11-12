@@ -14,14 +14,14 @@ class ProfileForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'class': 'form-control'}),
         max_length=50,
         required=True)
-    user_sex = (('Choose', 'Choose an option'),('MALE', 'Male'), ('FEMALE', 'Female'))
+    user_sex = (('Choose', 'Choose an option'), ('MALE', 'Male'), ('FEMALE', 'Female'))
     sex = forms.ChoiceField(choices=user_sex)
-    email = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
         max_length=75,
         required=True)
     about = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'rows': 4}),
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
         max_length=350,
         required=True)
 

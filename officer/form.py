@@ -18,7 +18,7 @@ class ProfileForm(forms.ModelForm):
     user_sex = (('Choose', 'Choose an option'), ('MALE', 'Male'), ('FEMALE', 'Female') )
     sex = forms.ChoiceField(choices=user_sex)
     email = forms.EmailField(
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        widget=forms.EmailInput(attrs={'class': 'form-control'}),
         max_length=75,
         required=True)
     about = forms.CharField(
