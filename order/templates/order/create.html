@@ -18,18 +18,17 @@
         <li class="active">{% trans 'Check Out' %}</li>
     </ol>
 
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <div class="order-info">
         <h3>Your order</h3>
-
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-
         <ul>
             {% for item in cart %}
                 <li>{{ item.quantity }}x {{ item.product.product_name }} <span>${{ item.total_price }}</span></li>

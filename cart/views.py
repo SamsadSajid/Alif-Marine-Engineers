@@ -2,11 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 # the following model will move to shop/models
 from officer.models import ProductList
-# from shop.models import Product
+from django.contrib.auth.decorators import login_required
+from user_group.check_group import group_required
 from .cart import Cart
 from .forms import CartAddProductForm
 
 
+@login_required
+@group_required('client_group')
 @require_POST
 def cart_add(request, product_id):
     cart = Cart(request)

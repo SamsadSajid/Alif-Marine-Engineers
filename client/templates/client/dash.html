@@ -35,7 +35,7 @@
         <div class="col-md-3 left_col menu_fixed">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="personal_info.html" class="site_title"><i class="fa fa-paw"></i> <span>Alif-Marine-Engineers Ltd.</span></a>
+              <a href="{% url 'home' %}" class="site_title"><i class="fa fa-paw"></i> <span>Alif-Marine-Engineers Ltd.</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -175,6 +175,8 @@
 {#    <link href="extra/nprogress.css" rel="stylesheet">#}
     <!-- jQuery custom content scroller -->
   <script src="{% static 'extra/nprogress/nprogress.js' %}"></script>
+  <script src="{% static 'extra/bootstrap-progressbar/bootstrap-progressbar.min.js' %}"></script>
+
 
 {#  {% include 'dashboard/extra/jquery.mCustomScrollbar.min.css' %}#}
 {#    <link href="extra/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>#}

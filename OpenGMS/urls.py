@@ -24,6 +24,7 @@ from django.views import generic
 from core import views as core_views
 from authentication import views as client_auth_views
 from client import views as client_views
+from user_group import check_group
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -60,6 +61,8 @@ urlpatterns = [
     url(r'^(?P<username>[^/]+)/$', core_views.profile, name='profile'),
     url(r'^i18n/', include('django.conf.urls.i18n', namespace='i18n')),
 ]
+
+handler404 = 'user_group.check_group.handler404'
 
 if settings.DEBUG:
     import debug_toolbar

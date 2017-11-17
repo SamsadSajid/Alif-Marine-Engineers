@@ -234,19 +234,23 @@ def create_account(request):
         return render(request, 'dashboard/create_account.html')
 
 
+@group_required('officer_group')
 def delete_account(request):
     return render(request, 'dashboard/delete_account.html')
 
 
+@group_required('officer_group')
 def reset_account_pass(request):
     return render(request, 'dashboard/reset_account_pass.html')
 
 
+@group_required('officer_group')
 def new_order(request):
     form = NewOrderForm()
     return render(request, 'dashboard/new_order.html', {'form': form})
 
 
+@group_required('officer_group')
 def order_list(request):
     # table = OrderTable(Order_List.objects.all())
     # RequestConfig(request).configure(table)

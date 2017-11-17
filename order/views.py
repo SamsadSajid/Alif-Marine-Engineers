@@ -13,31 +13,46 @@ from cart.cart import Cart
 
 
 def order_create(request):
+    user = request.user
     cart = Cart(request)
     if request.method == 'POST':
         form = OrderCreateForm(request.POST)
         if form.is_valid():
-            order = form.save()
-            for item in cart:
-                OrderItem.objects.create(order=order,
-                                         product=item['product'],
-                                         price=item['price'],
-                                         quantity=item['quantity'])
+            _email = form.cleaned_data['email']
+            print (_email)
+            print (user.email)
+            if _email != user.email:
+                print ("error")
+                messages.add_message(request, messages.ERROR,
+                                     "Your email doesn't match. Please provide the email you used"
+                                     "to open this account")
+                return render(request, 'order/create.html', {'form': form})
+            else:
+                order = form.save()
+                for item in cart:
+                    OrderItem.objects.create(order=order,
+                                             product=item['product'],
+                                             price=item['price'],
+                                             quantity=item['quantity'])
             # clear the cart
-            cart.clear()
+                cart.clear()
             # launch asynchronous task
             # order_created.delay(order.id)
             # set the order in the session
-            request.session['order_id'] = order.id
+                request.session['order_id'] = order.id
             # redirect to the payment
-            return redirect('order:success')  # change hobe
+                return redirect('client:order_view', pk=order.id)  # change hobe
         else:
             messages.add_message(request, messages.ERROR,
                                  'Submitted form contains invalid data!')
-            return render('order/create.html', {'form': form})
+            return render(request, 'order/create.html', {'form': form})
     else:
         if cart:
-            form = OrderCreateForm()
+            form = OrderCreateForm(instance=user, initial={
+                'first_name': user.first_name,
+                'last_name': user.last_name,
+                'email': user.email,
+            })
             return render(request, 'order/create.html', {'cart': cart,
                                                          'form': form})
         else:

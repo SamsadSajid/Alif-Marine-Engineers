@@ -13,6 +13,12 @@ class Order(models.Model):
     city = models.CharField(max_length=250)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    delivery = models.DateField(null=True)
+    choices = (('In Progress', 'In Progress'), ('Done', 'Done'), ('Rejected', 'Rejected'))
+    status = models.CharField(max_length=15, default="In Progress", choices=choices)
+    updatedByManager = models.CharField(max_length=100)
+    updatedByManagerId = models.IntegerField()
+    updatedByManagerAt = models.DateTimeField(auto_now_add=True)
     # paid option will be available in the pro version
     # paid = models.BooleanField(default=False)
 

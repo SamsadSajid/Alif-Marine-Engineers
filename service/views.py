@@ -13,6 +13,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
 from service.form import ProfileForm, ChangePasswordForm, ContactForm, NewOrderForm
 from django.shortcuts import render
+from user_group.check_group import group_required
 from django_tables2 import RequestConfig
 from .models import Order_List
 
@@ -24,6 +25,7 @@ __FILE_TYPES = ['zip']
 
 
 @login_required
+@group_required('service_group')
 def profile(request):
     user = request.user
     if request.method == 'POST':
@@ -48,6 +50,7 @@ def profile(request):
 
 
 @login_required
+@group_required('service_group')
 def contact(request):
     user = request.user
     if request.method == 'POST':
@@ -73,10 +76,11 @@ def contact(request):
             'phone': user.profile.phone,
             'zip': user.profile.zip,
         })
-    return render(request, 'production/contact.html', {'form': form})
+    return render(request, 'service/contact.html', {'form': form})
 
 
 @login_required
+@group_required('service_group')
 def picture(request):
     uploaded_picture = False
     try:
@@ -92,6 +96,7 @@ def picture(request):
 
 
 @login_required
+@group_required('service_group')
 def upload_picture(request):
     try:
         profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
@@ -119,6 +124,7 @@ def upload_picture(request):
 
 
 @login_required
+@group_required('service_group')
 def save_uploaded_picture(request):
     try:
         x = int(request.POST.get('x'))
@@ -142,6 +148,7 @@ def save_uploaded_picture(request):
 
 
 @login_required
+@group_required('service_group')
 def password(request):
     user = request.user
     if request.method == 'POST':
@@ -172,15 +179,18 @@ def reset_account_pass(request):
     return render(request, 'service/reset_account_pass.html')
 
 
+@group_required('service_group')
 def select_manager(request):
     return render(request, 'service/select_manager.html')
 
 
+@group_required('service_group')
 def new_order(request):
     form = NewOrderForm()
     return render(request, 'service/new_order.html', {'form': form})
 
 
+@group_required('service_group')
 def order_list(request):
     # table = OrderTable(Order_List.objects.all())
     # RequestConfig(request).configure(table)
@@ -188,6 +198,7 @@ def order_list(request):
 
 
 @login_required
+@group_required('service_group')
 def logout_view(request):
     logout(request)
     return render(request, 'core/login.html')

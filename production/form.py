@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from phonenumber_field.formfields import PhoneNumberField
+from order.models import Order
 import datetime
 
 
@@ -128,3 +129,12 @@ class NewOrderForm(forms.ModelForm):
         model = User
         fields = ['client_username', 'client_name', 'order_type', 'design', 'deadline',
                   'quantity', 'budget', 'shipping_address', 'specification']
+
+
+class StatusForm(forms.ModelForm):
+    choices = (('In Progress', 'In Progress'), ('Done', 'Done'), ('Rejected', 'Rejected'))
+    status = forms.ChoiceField(choices=choices)
+
+    class Meta:
+        model = Order
+        fields = ['status']

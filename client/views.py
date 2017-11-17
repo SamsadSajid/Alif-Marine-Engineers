@@ -17,6 +17,7 @@ from cart.forms import CartAddProductForm
 from django.shortcuts import render
 from django_tables2 import RequestConfig
 from order.models import Order, OrderItem
+from user_group.check_group import group_required
 from django.contrib.auth import logout
 # from .tables import OrderTable
 
@@ -24,6 +25,7 @@ __FILE_TYPES = ['zip']
 
 
 @login_required(login_url='/login/')
+@group_required('client_group')
 def profile(request):
     user = request.user
     if request.method == 'POST':
@@ -57,6 +59,7 @@ def profile(request):
 
 
 @login_required(login_url='/login/')
+@group_required('client_group')
 def contact(request):
     user = request.user
     if request.method == 'POST':
@@ -101,6 +104,7 @@ def contact(request):
 
 
 @login_required(login_url='/login/')
+@group_required('client_group')
 def picture(request):
     uploaded_picture = False
     try:
@@ -116,6 +120,7 @@ def picture(request):
 
 
 @login_required(login_url='/login/')
+@group_required('client_group')
 def upload_picture(request):
     try:
         profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
@@ -143,6 +148,7 @@ def upload_picture(request):
 
 
 @login_required(login_url='/login/')
+@group_required('client_group')
 def save_uploaded_picture(request):
     try:
         x = int(request.POST.get('x'))
@@ -166,6 +172,7 @@ def save_uploaded_picture(request):
 
 
 @login_required(login_url='/login/')
+@group_required('client_group')
 def password(request):
     user = request.user
     if request.method == 'POST':
@@ -197,6 +204,7 @@ def password(request):
 #     return render(request, 'dashboard/reset_account_pass.html')
 
 @login_required(login_url='/login/')
+@group_required('client_group')
 def new_order(request):
     form = NewOrderForm()
     return render(request, 'client/client_new_order.html', {'form': form})
@@ -211,6 +219,7 @@ def order_list(request):
 
 
 @login_required(login_url='/login/')
+@group_required('client_group')
 def order_view(request, pk):
     user = request.user
     order = Order.objects.get(id=pk)
@@ -220,6 +229,7 @@ def order_view(request, pk):
 
 
 @login_required(login_url='/login/')
+@group_required('client_group')
 def order_edit(request):
     form = NewOrderForm()
     return render(request, 'client/order_edit.html', {'form': form})
@@ -227,6 +237,7 @@ def order_edit(request):
 
 # view for all products. Even if a user is not authenticated, can view this page. Can view details of the
 # product. But cannot use 'add to cart' privilege!!!
+
 
 def products(request):
     _products = ProductList.objects.all()
@@ -256,6 +267,7 @@ def product_details(request, slug):
     })
 
 
+@group_required('client_group')
 def review(request, pk):
     user = request.user
     product = get_object_or_404(ProductList, id=pk)
@@ -274,6 +286,7 @@ def review(request, pk):
 
 
 @login_required(login_url='/login/')
+@group_required('client_group')
 def logout_view(request):
     logout(request)
     return render(request, 'core/login.html')

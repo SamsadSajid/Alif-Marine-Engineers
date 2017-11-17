@@ -1,5 +1,6 @@
 {% extends 'client/dash.html' %}
 {% load staticfiles %}
+{% load review_tag %}
 {% load i18n %}
 
 {% block head %}
@@ -41,61 +42,68 @@
                     <div class="row">
                       <div class="col-sm-12">
                         <div class="card-box table-responsive">
-                          {% for order in orders %}
                             <table id="datatable-keytable" class="table table-striped table-bordered">
                                 <thead>
                                     <tr>
-                                        <th><i class="fa fa-edit"></i></th>
-                                        <th><i class="fa fa-eye"></i></th>
                                         <th>Order Id</th>
                                         <th>Username</th>
                                         <th>Order Date</th>
                                         <th>Delivery Date</th>
+                                        <th>Progress</th>
                                         <th>Status</th>
+                                        <th><i class="fa fa-edit"></i></th>
+                                        <th><i class="fa fa-eye"></i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <button onclick='location.href="{% url 'client:order_edit' %}"' type="button">
-                                                Edit
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button onclick='location.href="{% url 'client:order_view' order.id %}"' type="button">
-                                                View
-                                            </button>
-                                        </td>
-                                        <td>{{ order.id }}</td>
-                                        <td>{{ order.first_name }}{{ order.last_name }}</td>
-                                        <td>{{ order.created|date }}</td>
-                                        <td>30/01/2017</td>
-                                        <td>
-                                            <span class="label label-success" style="width: 100%;text-align: center">Done</span>
-                                        </td>
-                                    </tr>
-{#                              <tr>#}
-{#                                <td>#}
-{#                                    <button onclick='location.href="{% url 'client:order_edit' %}"' type="button">#}
-{#                                        Edit#}
-{#                                    </button>#}
-{#                                </td>#}
-{#                                <td>#}
-{#                                    <button onclick='location.href="{% url 'client:order_view' %}"' type="button">#}
-{#                                        View#}
-{#                                    </button>#}
-{#                                </td>#}
-{#                                <td>1001</td>#}
-{#                                <td>Tobby Mcguire</td>#}
-{#                                <td>12/01/2017</td>#}
-{#                                <td>30/01/2017</td>#}
-{#                                <td>#}
-{#                                    <span class="label label-danger" style="width: 100%;text-align: center">Rejected</span>#}
-{#                                </td>#}
-{#                              </tr>#}
+                                    {% for order in orders %}
+                                        <tr>
+                                            <td>{{ order.id }}</td>
+                                            <td>{{ order.first_name }}{{ order.last_name }}</td>
+                                            <td>{{ order.created|date }}</td>
+                                            {% get_delivery_date order as date%}
+                                                {% if date %}
+                                                    <td>{{ date }}</td>
+                                                {% else %}
+                                                    <td>
+                                                        <p>
+                                                            Delivery date is not set yet. You will be notified when the date is set.
+                                                        </p>
+                                                    </td>
+                                                {% endif %}
+                                            <td class="project_progress">
+                                                <div class="progress progress_sm">
+                                                    <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="57"></div>
+                                                </div>
+                                                <small>57% Complete</small>
+                                            </td>
+                                            {% if order.status == 'In Progress' %}
+                                                <td>
+                                                    <span class="label label-info" style="width: 100%;text-align: center">In Progress</span>
+                                                </td>
+                                            {% elif order.status == 'Done' %}
+                                                <td>
+                                                    <span class="label label-success" style="width: 100%;text-align: center">Done</span>
+                                                </td>
+                                            {% elif order.status == 'Rejected' %}
+                                                <td>
+                                                    <span class="label label-danger" style="width: 100%;text-align: center">Rejected</span>
+                                                </td>
+                                            {% endif %}
+                                            <td>
+                                                <button onclick='location.href="{% url 'client:order_edit' %}"' type="button" class="btn btn-info btn-xs">
+                                                    <i class="fa fa-pencil"> Edit </i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button onclick='location.href="{% url 'client:order_view' order.id %}"' type="button" class="btn btn-primary btn-xs">
+                                                    <i class="fa fa-folder"> View </i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
                                 </tbody>
                             </table>
-                          {% endfor %}
                         </div>
                       </div>
                     </div>

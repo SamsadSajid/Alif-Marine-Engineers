@@ -11,8 +11,10 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.shortcuts import get_object_or_404, redirect, render
-from production.form import ProfileForm, ChangePasswordForm, ContactForm, NewOrderForm
+from production.form import ProfileForm, ChangePasswordForm, ContactForm, NewOrderForm, StatusForm
+from order.models import Order, OrderItem
 from django.shortcuts import render
+from user_group.check_group import group_required
 from django_tables2 import RequestConfig
 from .models import Order_List
 
@@ -24,6 +26,7 @@ __FILE_TYPES = ['zip']
 
 
 @login_required
+@group_required('production_group')
 def profile(request):
     user = request.user
     if request.method == 'POST':
@@ -57,6 +60,7 @@ def profile(request):
 
 
 @login_required
+@group_required('production_group')
 def contact(request):
     user = request.user
     if request.method == 'POST':
@@ -101,6 +105,7 @@ def contact(request):
 
 
 @login_required
+@group_required('production_group')
 def picture(request):
     uploaded_picture = False
     try:
@@ -116,6 +121,7 @@ def picture(request):
 
 
 @login_required
+@group_required('production_group')
 def upload_picture(request):
     try:
         profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
@@ -143,6 +149,7 @@ def upload_picture(request):
 
 
 @login_required
+@group_required('production_group')
 def save_uploaded_picture(request):
     try:
         x = int(request.POST.get('x'))
@@ -166,6 +173,7 @@ def save_uploaded_picture(request):
 
 
 @login_required
+@group_required('production_group')
 def password(request):
     user = request.user
     if request.method == 'POST':
@@ -184,17 +192,54 @@ def password(request):
     return render(request, 'production/password.html', {'form': form})
 
 
+@group_required('production_group')
 def new_order(request):
     form = NewOrderForm()
     return render(request, 'production/new_order.html', {'form': form})
 
 
+@group_required('production_group')
 def order_list(request):
-    # table = OrderTable(Order_List.objects.all())
-    # RequestConfig(request).configure(table)
-    return render(request, 'production/order_list.html')
+    user = request.user
+    orders = Order.objects.all()
+    # print (orders)
+    return render(request, 'production/order_list.html', {'orders': orders})
 
 
+@login_required
+@group_required('production_group')
+def order_view(request, pk):
+    user = request.user
+    order = Order.objects.get(id=pk)
+    order_item = OrderItem.objects.filter(order_id=pk)
+    return render(request, 'production/order_view.html', {'order_item': order_item,
+                                                          'order': order})
+
+
+@login_required
+@group_required('production_group')
+def order_edit(request, pk):
+    user = request.user
+    order = Order.objects.get(id=pk)
+    order_item = OrderItem.objects.filter(order_id=pk)
+    if request.method == 'POST':
+        print ('baal')
+        form = StatusForm(request.POST)
+        order.delivery = request.POST['date']
+        print(order.delivery)
+        if form.is_valid():
+            order.status = form.cleaned_data.get('status')
+            print(order.status)
+            order.save()
+            return redirect('production:order_view', pk=pk)
+    else:
+        form = StatusForm()
+        return render(request, 'production/order_edit.html', {'order_item': order_item,
+                                                              'order': order, 'form': form})
+
+
+@login_required
+@group_required('production_group')
 def logout_view(request):
     logout(request)
     return render(request, 'core/login.html')
