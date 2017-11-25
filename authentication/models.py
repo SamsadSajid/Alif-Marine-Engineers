@@ -28,6 +28,7 @@ class Profile(models.Model):
     about = models.CharField(max_length=250, null=True, blank=True)
     email_confirmed = models.BooleanField(default=False)
     account_type = models.IntegerField(default=-1)
+    profile_picture = models.FileField(upload_to='profile_pictures', blank=True)
 
     class Meta:
         db_table = 'auth_profile'

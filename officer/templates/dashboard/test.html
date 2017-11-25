@@ -9,7 +9,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Alif Marine Engineers</title>
+    <title>Dashboard</title>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
       {% block head %}
     {% endblock %}
@@ -22,7 +22,7 @@
     <!-- jQuery custom content scroller -->
    <link href="{% static 'extra/jquery.mCustomScrollbar.min.css' %}" rel="stylesheet">
     <!-- Custom Theme Style -->
-   <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
+   <link href="{% static 'build/css/custom.css' %}" rel="stylesheet">
 
 
 
@@ -35,7 +35,9 @@
         <div class="col-md-3 left_col menu_fixed">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="{% url 'home' %}" class="site_title"><i class="fa fa-paw"></i> <span>Alif-Marine-Engineers Ltd.</span></a>
+              <a href="{% url 'home' %}" class="site_title">
+                  <i class="fa fa-paw"></i>
+                  <span>Alif-Marine-Engineers Ltd.</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -43,7 +45,12 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="{{ user.profile.get_picture }}" alt="..." class="img-circle profile_img">
+                {% if  user.profile.profile_picture%}
+                    <img src="{{ user.profile.profile_picture.url }}" alt="..."
+                         class="img-circle profile_img">
+                {% else %}
+                    <img src="{% static 'images/user.png'%}" class="img-circle profile_img">
+                {% endif %}
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
@@ -114,8 +121,14 @@
 
               <ul class="nav navbar-nav navbar-right">
                 <li class="">
-                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                    <img src="{{ user.profile.get_picture }}" alt="">{{ user.profile.get_screen_name }}
+                  <a href="javascript:;" class="user-profile dropdown-toggle"
+                     data-toggle="dropdown" aria-expanded="false">
+                    {% if  user.profile.profile_picture%}
+                      <img src="{{ user.profile.profile_picture.url }}" alt="">
+                    {% else %}
+                      <img src="{% static 'images/user.png'%}" alt="">
+                    {% endif %}
+                    {{ user.profile.get_screen_name }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
                   <ul class="dropdown-menu dropdown-usermenu pull-right">

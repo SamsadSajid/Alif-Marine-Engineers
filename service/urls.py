@@ -11,8 +11,6 @@ urlpatterns = [
     url(r'^profile', service_views.profile, name='profile'),
     url(r'^contact', service_views.contact, name='contact'),
     url(r'^picture', service_views.picture, name='picture'),
-    url(r'^upload_picture', service_views.upload_picture, name='upload_picture'),
-    url(r'^save_uploaded_picture', service_views.save_uploaded_picture, name='save_uploaded_picture'),
     url(r'^password', service_views.password, name='password'),
 
     url(r'^create_account', service_views.create_account, name='create_account'),

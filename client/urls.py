@@ -11,8 +11,6 @@ urlpatterns = [
     url(r'^profile', client_views.profile, name='profile'),
     url(r'^contact', client_views.contact, name='contact'),
     url(r'^picture', client_views.picture, name='picture'),
-    url(r'^upload_picture', client_views.upload_picture, name='upload_picture'),
-    url(r'^save_uploaded_picture', client_views.save_uploaded_picture, name='save_uploaded_picture'),
     url(r'^password', client_views.password, name='password'),
 
     # url(r'^create_account', client_views.create_account, name='create_account'),
@@ -22,7 +20,7 @@ urlpatterns = [
     url(r'^new_order', client_views.new_order, name='new_order'),
     url(r'^order_list', client_views.order_list, name='order_list'),
     url(r'^(?P<pk>[0-9]+)/order_view', client_views.order_view, name='order_view'),
-    url(r'^order_list', client_views.order_edit, name='order_edit'),
+    url(r'^order_edit', client_views.order_edit, name='order_edit'),
 
     url(r'^logout', client_views.logout_view, name='logout'),
 ]

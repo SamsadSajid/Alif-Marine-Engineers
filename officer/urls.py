@@ -12,8 +12,6 @@ urlpatterns = [
     url(r'^profile', officer_views.profile, name='profile'),
     url(r'^contact', officer_views.contact, name='contact'),
     url(r'^picture', officer_views.picture, name='picture'),
-    url(r'^upload_picture', officer_views.upload_picture, name='upload_picture'),
-    url(r'^save_uploaded_picture', officer_views.save_uploaded_picture, name='save_uploaded_picture'),
     url(r'^password', officer_views.password, name='password'),
 
     url(r'^create_account', officer_views.create_account, name='create_account'),

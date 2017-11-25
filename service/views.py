@@ -82,69 +82,13 @@ def contact(request):
 @login_required
 @group_required('service_group')
 def picture(request):
-    uploaded_picture = False
-    try:
-        if request.GET.get('upload_picture') == 'uploaded':
-            uploaded_picture = True
-
-    except Exception:
-        pass
-
-    print(uploaded_picture)
-    return render(request, 'service/picture.html',
-                  {'uploaded_picture': uploaded_picture})
-
-
-@login_required
-@group_required('service_group')
-def upload_picture(request):
-    try:
-        profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
-        if not os.path.exists(profile_pictures):
-            os.makedirs(profile_pictures)
-        f = request.FILES['picture']
-        filename = profile_pictures + request.user.username + '_tmp.jpg'
-        with open(filename, 'wb+') as destination:
-            for chunk in f.chunks():
-                destination.write(chunk)
-        im = Image.open(filename)
-        width, height = im.size
-        if width > 350:
-            new_width = 350
-            new_height = (height * 350) / width
-            new_size = new_width, new_height
-            im.thumbnail(new_size, Image.ANTIALIAS)
-            im.save(filename)
-
-        return redirect('picture/?upload_picture=uploaded')
-
-    except Exception as e:
-        print(e)
-        return redirect('/picture/')
-
-
-@login_required
-@group_required('service_group')
-def save_uploaded_picture(request):
-    try:
-        x = int(request.POST.get('x'))
-        y = int(request.POST.get('y'))
-        w = int(request.POST.get('w'))
-        h = int(request.POST.get('h'))
-        tmp_filename = django_settings.MEDIA_ROOT + '/profile_pictures/' +\
-            request.user.username + '_tmp.jpg'
-        filename = django_settings.MEDIA_ROOT + '/profile_pictures/' +\
-            request.user.username + '.jpg'
-        im = Image.open(tmp_filename)
-        cropped_im = im.crop((x, y, w+x, h+y))
-        cropped_im.thumbnail((200, 200), Image.ANTIALIAS)
-        cropped_im.save(filename)
-        os.remove(tmp_filename)
-
-    except Exception:
-        pass
-
-    return redirect('picture/')
+    user = request.user
+    if request.method == 'POST':
+        user.profile.profile_picture = request.FILES['picture']
+        user.save()
+        return render(request, 'service/picture.html')
+    print (user.profile.profile_picture)
+    return render(request, 'service/picture.html')
 
 
 @login_required

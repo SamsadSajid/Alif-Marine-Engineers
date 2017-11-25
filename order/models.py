@@ -17,7 +17,7 @@ class Order(models.Model):
     choices = (('In Progress', 'In Progress'), ('Done', 'Done'), ('Rejected', 'Rejected'))
     status = models.CharField(max_length=15, default="In Progress", choices=choices)
     updatedByManager = models.CharField(max_length=100)
-    updatedByManagerId = models.IntegerField()
+    updatedByManagerId = models.IntegerField(null=True)
     updatedByManagerAt = models.DateTimeField(auto_now_add=True)
     # paid option will be available in the pro version
     # paid = models.BooleanField(default=False)
