@@ -22,5 +22,7 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/order_view', client_views.order_view, name='order_view'),
     url(r'^order_edit', client_views.order_edit, name='order_edit'),
 
+    url(r'^notification', client_views.notification, name='notification'),
+
     url(r'^logout', client_views.logout_view, name='logout'),
 ]

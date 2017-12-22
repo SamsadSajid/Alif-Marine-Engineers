@@ -19,5 +19,7 @@ urlpatterns = [
     url(r'^(?P<pk>[0-9]+)/order_view', production_views.order_view, name='order_view'),
     url(r'^(?P<pk>[0-9]+)/order_edit', production_views.order_edit, name='order_edit'),
 
+    url(r'^notification', production_views.notification, name='notification'),
+
     url(r'^logout', production_views.logout_view, name='logout'),
 ]

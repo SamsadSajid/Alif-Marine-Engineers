@@ -2,8 +2,18 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models.signals import post_save
+from notifications.signals import notify
+from authentication.models import Employee
 
 # Create your models here.
+
+
+def my_handler(sender, instance, created, **kwargs):
+    notify.send(instance, verb='was saved')
+
+
+post_save.connect(my_handler, sender=Employee.user)
 
 
 class Order_List(models.Model):

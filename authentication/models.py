@@ -39,10 +39,10 @@ class Profile(models.Model):
     def get_picture(self):
         no_picture = 'http://trybootcamp.vitorfs.com/static/img/user.png'
         try:
-            filename = settings.MEDIA_ROOT + '/profile_pictures/' + \
-                       self.user.username + '.jpg'
+            filename = settings.MEDIA_ROOT + '/profile_pictures/' \
+                       + self.user.username + '_' + str(self.user.id) + '.jpg'
             picture_url = settings.MEDIA_URL + 'profile_pictures/' + \
-                          self.user.username + '.jpg'
+                            self.user.username + '_' + str(self.user.id) + '.jpg'
             if os.path.isfile(filename):
                 return picture_url
             else:

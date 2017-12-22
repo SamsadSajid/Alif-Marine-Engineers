@@ -46,7 +46,7 @@
             <div class="profile clearfix">
               <div class="profile_pic">
                 {% if  user.profile.profile_picture%}
-                    <img src="{{ user.profile.profile_picture.url }}" alt="..."
+                    <img src="{{ user.profile.get_picture }}" alt="..."
                          class="img-circle profile_img">
                 {% else %}
                     <img src="{% static 'images/user.png'%}" class="img-circle profile_img">
@@ -124,7 +124,7 @@
                   <a href="javascript:;" class="user-profile dropdown-toggle"
                      data-toggle="dropdown" aria-expanded="false">
                     {% if  user.profile.profile_picture%}
-                      <img src="{{ user.profile.profile_picture.url }}" alt="">
+                      <img src="{{ user.profile.get_picture }}" alt="">
                     {% else %}
                       <img src="{% static 'images/user.png'%}" alt="">
                     {% endif %}

@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import print_function
 from __future__ import unicode_literals
 from django.shortcuts import render
 import os
@@ -15,6 +16,9 @@ from production.form import ProfileForm, ChangePasswordForm, ContactForm, NewOrd
 from order.models import Order, OrderItem
 from django.shortcuts import render
 from user_group.check_group import group_required
+from Notifications.models import Notifications
+from notifications.signals import notify
+import dateutil.parser
 from django_tables2 import RequestConfig
 from .models import Order_List
 
@@ -108,11 +112,27 @@ def contact(request):
 @group_required('production_group')
 def picture(request):
     user = request.user
+    profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
+    if not os.path.exists(profile_pictures):
+        os.makedirs(profile_pictures)
     if request.method == 'POST':
-        user.profile.profile_picture = request.FILES['picture']
+        _picture = request.FILES['picture']
+        filename = profile_pictures + request.user.username + '_' + str(request.user.id) + '.jpg'
+        with open(filename, 'wb+') as destination:
+            for chunk in _picture.chunks():
+                destination.write(chunk)
+        im = Image.open(filename)
+        width, height = im.size
+        if width > 400:
+            new_width = 400
+            new_height = 300  # (height * 400) / width
+            new_size = new_width, new_height
+            im.thumbnail(new_size, Image.ANTIALIAS)
+            im.save(filename)
+
+        user.profile.profile_picture = filename
         user.save()
         return render(request, 'production/picture.html')
-    print (user.profile.profile_picture)
     return render(request, 'production/picture.html')
 
 
@@ -175,11 +195,52 @@ def order_edit(request, pk):
             order.status = form.cleaned_data.get('status')
             print(order.status)
             order.save()
+            if order.delivery and order.status:
+                msg = "Your order status has been updated and a delivery date has been set."
+                _recipient = User.objects.filter(email=order.email)
+                notify.send(user, recipient=_recipient, verb=msg, action_object=order)
+            elif order.delivery and not order.status:
+                msg = "A delivery date has been set for your order"
+                _recipient = User.objects.filter(email=order.email)
+                notify.send(user, recipient=_recipient, verb=msg)
+            elif not order.delivery and order.status:
+                msg = "Your order status has been updated."
+                _recipient = User.objects.filter(email=order.email)
+                notify.send(user, recipient=_recipient, verb=msg)
             return redirect('production:order_view', pk=pk)
     else:
         form = StatusForm()
         return render(request, 'production/order_edit.html', {'order_item': order_item,
                                                               'order': order, 'form': form})
+
+
+@login_required
+@group_required('production_group')
+def notification(request):
+    user = request.user
+    unread = user.notifications.unread()
+    __notification = Notifications()
+    for msg in unread:
+        __notification.from_user = msg.actor
+        __notification.to_user = user
+        __notification.order = msg.action_object
+        __notification.notification_message = msg.verb
+        __notification.notification_time = msg.timestamp
+        print(msg.timestamp)
+        __notification.save()
+    all_notifications = Notifications.objects.filter(to_user=user)
+    paginator = Paginator(all_notifications, 10)
+    page = request.GET.get('page', 1) # returns the 1st page
+    try:
+        notification_list = paginator.page(page)
+    except PageNotAnInteger:
+        notification_list = paginator.page(1)
+    except EmptyPage:
+        notification_list = paginator.page(paginator.num_pages)
+    return render(request, 'production/notification.html', {
+        'unread': unread,
+        'notification_list': notification_list
+    })
 
 
 @login_required

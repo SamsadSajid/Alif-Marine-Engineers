@@ -19,6 +19,7 @@ from django_tables2 import RequestConfig
 from order.models import Order, OrderItem
 from user_group.check_group import group_required
 from django.contrib.auth import logout
+from Notifications.models import Notifications
 # from .tables import OrderTable
 
 __FILE_TYPES = ['zip']
@@ -107,11 +108,27 @@ def contact(request):
 @group_required('client_group')
 def picture(request):
     user = request.user
+    profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
+    if not os.path.exists(profile_pictures):
+        os.makedirs(profile_pictures)
     if request.method == 'POST':
-        user.profile.profile_picture = request.FILES['picture']
+        _picture = request.FILES['picture']
+        filename = profile_pictures + request.user.username + '_' + str(request.user.id) + '.jpg'
+        with open(filename, 'wb+') as destination:
+            for chunk in _picture.chunks():
+                destination.write(chunk)
+        im = Image.open(filename)
+        width, height = im.size
+        if width > 400:
+            new_width = 400
+            new_height = 300       # (height * 400) / width
+            new_size = new_width, new_height
+            im.thumbnail(new_size, Image.ANTIALIAS)
+            im.save(filename)
+
+        user.profile.profile_picture = filename
         user.save()
         return render(request, 'client/client_picture.html')
-    print (user.profile.profile_picture)
     return render(request, 'client/client_picture.html')
 
 
@@ -227,6 +244,35 @@ def review(request, pk):
     product_review.review = request.POST.get('comment')
     product_review.save()
     return redirect('detail', slug=product.slug)
+
+
+@login_required
+@group_required('client_group')
+def notification(request):
+    user = request.user
+    unread = user.notifications.unread()
+    __notification = Notifications()
+    for msg in unread:
+        __notification.from_user = msg.actor
+        __notification.to_user = user
+        __notification.order = msg.action_object
+        __notification.notification_message = msg.verb
+        __notification.notification_time = msg.timestamp
+        print(msg.timestamp)
+        __notification.save()
+    all_notifications = Notifications.objects.filter(to_user=user)
+    paginator = Paginator(all_notifications, 10)
+    page = request.GET.get('page', 1) # returns the 1st page
+    try:
+        notification_list = paginator.page(page)
+    except PageNotAnInteger:
+        notification_list = paginator.page(1)
+    except EmptyPage:
+        notification_list = paginator.page(paginator.num_pages)
+    return render(request, 'client/notification.html', {
+        'unread': unread,
+        'notification_list': notification_list
+    })
 
 
 @login_required(login_url='/login/')

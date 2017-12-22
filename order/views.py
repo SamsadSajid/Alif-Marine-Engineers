@@ -10,6 +10,8 @@ from .models import Order, OrderItem
 from .forms import OrderCreateForm
 # from .tasks import order_created
 from cart.cart import Cart
+from notifications.signals import notify
+from authentication.models import Employee, User, Profile, Client
 
 
 def order_create(request):
@@ -40,8 +42,16 @@ def order_create(request):
             # order_created.delay(order.id)
             # set the order in the session
                 request.session['order_id'] = order.id
+            # generate notification for production manager
+                msg = "A new order has been added by user {0}".format(user.profile.get_screen_name())
+                # profile = Employee.objects.filter(user=)
+                # _recipient = Employee.objects.filter(user=User.objects.filter(profile__account_type=3))
+                _recipient = User.objects.filter(profile__account_type=3)
+                print ("notify to ")
+                print(_recipient)
+                notify.send(user, recipient=list(_recipient), verb=msg, action_object=order)
             # redirect to the payment
-                return redirect('client:order_view', pk=order.id)  # change hobe
+                return redirect('client:order_view', pk=order.id)  # change hobe(-->hoise)
         else:
             messages.add_message(request, messages.ERROR,
                                  'Submitted form contains invalid data!')

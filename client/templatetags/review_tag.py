@@ -9,6 +9,7 @@ from django.template import Library
 from officer.models import ProductList
 from decimal import getcontext, Decimal
 from order.models import Order
+from  django.utils.timesince import timesince
 
 register = Library()
 
@@ -88,3 +89,9 @@ def get_delivery_date(order):
         return _order.delivery
     else:
         return False
+
+
+# return time of notifications - current time
+@register.assignment_tag()
+def get_time(time):
+    return timesince(time)

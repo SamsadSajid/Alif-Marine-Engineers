@@ -64,6 +64,8 @@ INSTALLED_APPS = [
     'service',
     'cart',
     'order',
+    'notifications',
+    'Notifications',
 ]
 
 MIDDLEWARE = [
@@ -169,7 +171,7 @@ ALLOWED_HOSTS = ['*']
 # shortcut for in form templates
 # try:
 #     # shortcut for in form templates
-#     from django.template.base import add_to_builtins
+#     from django.templates.base import add_to_builtins
 #     add_to_builtins('material.templatetags.material_form')
 #     add_to_builtins('template_debug.templatetags.debug_tags')
 # except ImportError:

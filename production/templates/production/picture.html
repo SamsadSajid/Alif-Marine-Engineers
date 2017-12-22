@@ -18,11 +18,7 @@
         {% endfor %}
       {% endif %}
       <h3 style="margin-top: 0">{% trans 'Change Picture' %}</h3>
-      {% if user.profile.profile_picture %}
-        <img src="{{ user.profile.profile_picture.url }}"  class="img-responsive avatar-view">
-      {% else %}
-        <img src="{%  static 'images/user.png' %}">
-      {% endif %}
+      <img src="{{ user.profile.get_picture }}"  class="img-responsive avatar-view">
       <form enctype="multipart/form-data" method="post"
             action="{% url 'production:picture' %}"
             id="picture-upload-form">

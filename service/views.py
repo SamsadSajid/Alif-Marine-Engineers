@@ -83,11 +83,27 @@ def contact(request):
 @group_required('service_group')
 def picture(request):
     user = request.user
+    profile_pictures = django_settings.MEDIA_ROOT + '/profile_pictures/'
+    if not os.path.exists(profile_pictures):
+        os.makedirs(profile_pictures)
     if request.method == 'POST':
-        user.profile.profile_picture = request.FILES['picture']
+        _picture = request.FILES['picture']
+        filename = profile_pictures + request.user.username + '_' + str(request.user.id) + '.jpg'
+        with open(filename, 'wb+') as destination:
+            for chunk in _picture.chunks():
+                destination.write(chunk)
+        im = Image.open(filename)
+        width, height = im.size
+        if width > 400:
+            new_width = 400
+            new_height = 300  # (height * 400) / width
+            new_size = new_width, new_height
+            im.thumbnail(new_size, Image.ANTIALIAS)
+            im.save(filename)
+
+        user.profile.profile_picture = filename
         user.save()
         return render(request, 'service/picture.html')
-    print (user.profile.profile_picture)
     return render(request, 'service/picture.html')
 
 

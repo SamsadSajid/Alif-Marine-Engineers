@@ -45,12 +45,7 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                {% if  user.profile.profile_picture%}
-                    <img src="{{ user.profile.profile_picture.url }}" alt="..."
-                         class="img-circle profile_img">
-                {% else %}
-                    <img src="{% static 'images/user.png'%}" class="img-circle profile_img">
-                {% endif %}
+                <img src="{{ user.profile.get_picture }}" alt="..."  class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
@@ -119,11 +114,7 @@
                 <li class="">
                   <a href="javascript:;" class="user-profile dropdown-toggle"
                      data-toggle="dropdown" aria-expanded="false">
-                    {% if  user.profile.profile_picture%}
-                      <img src="{{ user.profile.profile_picture.url }}" alt="">
-                    {% else %}
-                      <img src="{% static 'images/user.png'%}" alt="">
-                    {% endif %}
+                    <img src="{{ user.profile.get_picture }}" alt="">
                     {{ user.profile.get_screen_name }}
                     <span class=" fa fa-angle-down"></span>
                   </a>
