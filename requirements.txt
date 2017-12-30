@@ -19,3 +19,4 @@ django-phonenumber-field
 django-guardian
 django-star-ratings
 django-notifications-hq
+djangorestframework

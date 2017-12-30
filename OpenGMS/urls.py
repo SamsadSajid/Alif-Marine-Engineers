@@ -25,6 +25,8 @@ from core import views as core_views
 from authentication import views as client_auth_views
 from client import views as client_views
 import notifications.urls
+from autocompleteAPI import views as autocomplete_views
+from autocompleteAPI import views as serializer_views
 from user_group import check_group
 
 urlpatterns = [
@@ -64,6 +66,9 @@ urlpatterns = [
 
     # notification
     url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),
+
+    # rest API for autocomplete
+    url('^api.alif-marine.com/search/products/', autocomplete_views.list, name='productsAPI'),
 ]
 
 handler404 = 'user_group.check_group.handler404'

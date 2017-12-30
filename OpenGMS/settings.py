@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'guardian',
     'star_ratings',
+    'rest_framework',
 
     #app
     'core',
@@ -66,6 +67,7 @@ INSTALLED_APPS = [
     'order',
     'notifications',
     'Notifications',
+    'autocompleteAPI',
 ]
 
 MIDDLEWARE = [

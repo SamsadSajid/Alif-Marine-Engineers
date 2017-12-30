@@ -13,6 +13,8 @@
 
     <!-- Bootstrap core CSS -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Select2 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 
     <!-- Custom styles for this template -->
     <link href="{% static 'css/carousel.css' %}" rel="stylesheet">
@@ -37,7 +39,10 @@
             <a class="nav-link" href="#">New Arrival</a>
           </li>
             <form class="form-inline mt-2 mt-md-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+{#                <input class="form-control mr-sm-2" type="text" placeholder="Search">#}
+                <select class="js-data-example-ajax" style="width: 100mm">
+                    <option></option>
+                </select>
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
 {#          <li class="nav-item">#}
@@ -201,13 +206,52 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+{#    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>#}
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+{#    <script src="{% static 'js/select2.js' %}"></script>#}
+    <script>window.jQuery || document.write('<script src="{%  static 'js/jquery.min.js' %}"><\/script>')</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <script src="{% static 'js/holder.min.js' %}"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="{% static 'js/ie10-viewport-bug-workaround.js' %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.js-data-example-ajax').select2({
+                ajax: {
+                    url: "http://127.0.0.1:8000/api.alif-marine.com/search/products/",
+					dataType: 'json',
+{#					delay: 250,#}
+                    data: function (params) {
+                        var query ={
+							q:params.term						
+						};
+						return query
+                    },
+                    results: function (data, params) {
+                        return{
+                            results: data
+                        }
+                    },
+                    cache: true
+                },
+                placeholder: 'Search for a product',
+                escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+                minimumInputLength: 1,
+{#                templateResult: showName,#}
+                templateSelection: formatSelection
+            });
+            function showName (repo) {
+                return repo.text
+            }
+
+            function formatSelection (results) {
+                return '<option value="'+ results.id +'">' + results.text + '</option>'
+            }
+        });
+    </script>
   </body>
 </html>
