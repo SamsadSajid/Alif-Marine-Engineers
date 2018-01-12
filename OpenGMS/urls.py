@@ -26,7 +26,7 @@ from authentication import views as client_auth_views
 from client import views as client_views
 import notifications.urls
 from autocompleteAPI import views as autocomplete_views
-from autocompleteAPI import views as serializer_views
+from elastic_search import views as seach_views
 from user_group import check_group
 
 urlpatterns = [
@@ -66,6 +66,9 @@ urlpatterns = [
 
     # notification
     url('^inbox/notifications/', include(notifications.urls, namespace='notifications')),
+
+    # search
+    url('^search', seach_views.search, name='search'),
 
     # rest API for autocomplete
     url('^api.alif-marine.com/search/products/', autocomplete_views.list, name='productsAPI'),

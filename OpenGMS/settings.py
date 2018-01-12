@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'notifications',
     'Notifications',
     'autocompleteAPI',
+    'elastic_search',
 ]
 
 MIDDLEWARE = [

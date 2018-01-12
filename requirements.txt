@@ -20,3 +20,6 @@ django-guardian
 django-star-ratings
 django-notifications-hq
 djangorestframework
+elasticsearch-dsl
+elasticsearch
+requests

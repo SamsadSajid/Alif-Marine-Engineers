@@ -59,7 +59,7 @@
                         </div>
                         {% ratings product %}
                     </div>
-                    {% if user.is_authenticated %}
+                    {% if user.is_authenticated and user.profile.account_type == 0%}
                         <div class="col-md-6">
                             <button type="button" class="btn btn-success" data-toggle="collapse"
                                data-target="#collapseExample">
@@ -120,20 +120,15 @@
 {#                            </span>#}
                             {{ cart_product_form }}
                         </div>
-
-                        <div class="col-md-4">
-                            <button class="btn btn-lg btn-brand" style="color: deeppink">
-                                <i class="fa fa-cart-plus"></i>
-                                <span class="monospaced">Add to Cart</span>
-                            </button>
-                        </div>
+                        {% if  user.profile.account_type == 0%}
+                            <div class="col-md-4">
+                                <button class="btn btn-lg btn-brand" style="color: deeppink">
+                                    <i class="fa fa-cart-plus"></i>
+                                    <span class="monospaced">Add to Cart</span>
+                                </button>
+                            </div>
+                        {% endif %}
                     </form>
-                    <div class="col-md-4">
-                        <button class="btn btn-lg btn-brand" style="color: deeppink">
-                            <i class="fa fa-heart" style="color: deeppink"></i>
-                            <span class="monospaced">Add to Wish List</span>
-                        </button>
-                    </div>
                 </div><!-- end row -->
 
                 <!-- Nav tabs -->
@@ -237,10 +232,17 @@
         </div>
     </div>
 
+    <hr>
+
+    <div class="col-md-3">
+        <h1>People also searched for...</h1>
+    </div>
+
     <!-- /page content -->
 {% endblock %}
 
 {% block js %}
+{#  <script src="{% static 'js/product_details.js' %}"></script>#}
   <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 {% endblock %}

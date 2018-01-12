@@ -40,6 +40,27 @@ class ProductList(models.Model):
     def __str__(self):
         return self.product_name
 
+    # Method for indexing the model
+    def indexing(self):
+        from elastic_search.search import ProductIndex
+        obj = ProductIndex(
+            meta={'id': self.id},
+            product_id=self.product_id,
+            product_name=self.product_name,
+            slug=self.slug,
+            uploaded_by=self.uploaded_by,
+            uploaded_at=self.uploaded_at,
+            product_available=self.product_available,
+            product_porichiti=self.product_porichiti,
+            product_description=self.product_description,
+            product_notes=self.product_notes,
+            product_features=self.product_features,
+            quantity=self.quantity,
+            price=self.price
+        )
+        obj.save()
+        return obj.to_dict(include_meta=True)
+
 
 class ProductReview(models.Model):
     product_id = models.IntegerField()
