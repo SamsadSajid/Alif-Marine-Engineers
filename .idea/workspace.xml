@@ -1,19 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5eab5142-ca31-41b5-b2d0-6caf4732431d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenGMS/settings.py" afterPath="$PROJECT_DIR$/OpenGMS/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenGMS/templates/redirect-login.html" afterPath="$PROJECT_DIR$/OpenGMS/templates/redirect-login.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenGMS/templates/template/navbar.html" afterPath="$PROJECT_DIR$/OpenGMS/templates/template/navbar.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/OpenGMS/urls.py" afterPath="$PROJECT_DIR$/OpenGMS/urls.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/static/css/product_details.css" afterPath="$PROJECT_DIR$/client/static/css/product_details.css" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/templates/client/all_products.html" afterPath="$PROJECT_DIR$/client/templates/client/all_products.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/templates/client/products_detail.html" afterPath="$PROJECT_DIR$/client/templates/client/products_detail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/officer/models.py" afterPath="$PROJECT_DIR$/officer/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/requirements.txt" afterPath="$PROJECT_DIR$/requirements.txt" />
-    </list>
+    <list default="true" id="5eab5142-ca31-41b5-b2d0-6caf4732431d" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,18 +39,8 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="search.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/elastic_search/templates/search/search.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="18">
-              <caret line="129" column="32" lean-forward="false" selection-start-line="129" selection-start-column="32" selection-end-line="129" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/views.py">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -227,86 +205,6 @@
             <path>
               <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
               <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="autocompleteAPI" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="elastic_search" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="elastic_search" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="elastic_search" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="search" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="officer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Alif-Marine-Engineers" type="b2602c69:ProjectViewProjectNode" />
-              <item name="OpenGMS" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-              <item name="templates" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -772,13 +670,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Notifications/apps.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="7" column="25" lean-forward="false" selection-start-line="7" selection-start-column="12" selection-end-line="7" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/production/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
@@ -1132,18 +1023,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/elastic_search/templates/search/search.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="129" column="32" lean-forward="false" selection-start-line="129" selection-start-column="32" selection-end-line="129" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
