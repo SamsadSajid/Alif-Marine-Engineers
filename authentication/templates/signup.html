@@ -1,68 +1,161 @@
-{% load staticfiles%}
+{#{% load staticfiles%}#}
+{#{% load i18n %}#}
+{##}
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#    <head>#}
+{#        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">#}
+{#        <!-- Meta, title, CSS, favicons, etc. -->#}
+{#        <meta charset="utf-8">#}
+{#        <meta http-equiv="X-UA-Compatible" content="IE=edge">#}
+{#        <meta name="viewport" content="width=device-width, initial-scale=1">#}
+{#        <title>Sign-Up</title>#}
+{##}
+{#        <!-- Bootstrap -->#}
+{#        <link href="{% static 'extra/bootstrap.min.css' %}" rel="stylesheet">#}
+{#        <!-- Font Awesome -->#}
+{#        <link href="{% static 'extra/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">#}
+{#        <!-- NProgress -->#}
+{#        <link href="{% static 'extra/nprogress.css' %}" rel="stylesheet">#}
+{#        <!-- Animate.css -->#}
+{#        <link href="{% static 'extra/animate.css/animate.min.css' %}" rel="stylesheet">#}
+{#        <!-- Custom Theme Style -->#}
+{#        <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">#}
+{#    </head>#}
+{##}
+{#    <body class="login">#}
+{#        <div class="login_wrapper">#}
+{#            <div class="animate form login_form">#}
+{#                <section class="login_content">#}
+{#                <h1>#}
+{#                    {% trans 'Join Today!' %}#}
+{#                </h1>#}
+{#                {% if messages %}#}
+{#                    {% for message in messages %}#}
+{#                        <div class="alert alert-success alert-dismissable">#}
+{#                            <button type="button" class="close" data-dismiss="alert" #}
+{#                                    aria-hidden="true">&times;#}
+{#                            </button>#}
+{#                            {{ message }}#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                {% endif %}#}
+{#                <h3 style="margin-top: 0">{% trans 'Sign Up' %}</h3>#}
+{#                <form role="form" class="form-horizontal" method="post" action="{% url 'signup' %}">#}
+{#                    {% csrf_token %}#}
+{#                    {% for field in form.visible_fields %}#}
+{#                        <div class="form-group{% if field.errors %} has-error{% endif %}">#}
+{#                            <label for="{{ field.label }}" class="col-sm-2 control-label">#}
+{#                                {{ field.label }}#}
+{#                            </label>#}
+{#                            <div class="col-sm-10">#}
+{#                                {{ field }}#}
+{#                                {% if field.help_text %}#}
+{#                                    <span class="help-block">{{ field.help_text|safe }}</span>#}
+{#                                {% endif %}#}
+{#                                {% for error in field.errors %}#}
+{#                                    <label class="control-label">{{ error }}</label>#}
+{#                                {% endfor %}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                    <div class="form-group">#}
+{#                        <div class="col-sm-offset-2 col-sm-10">#}
+{#                            <button type="submit" class="btn btn-primary">#}
+{#                                {% trans 'Sign Up' %}#}
+{#                            </button>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#    </body>#}
+{#</html>#}
+
+
+{% load staticfiles %}
 {% load i18n %}
-
 <!DOCTYPE html>
-<html >
-<head>
-  <meta charset="UTF-8">
-  <title>Sign-Up</title>
-  <link href='https://fonts.googleapis.com/css?family=Titillium+Web:400,300,600' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-{#  <link rel="stylesheet" href="{%  static 'css/style.css' %}">#}
-  <link rel="stylesheet" href="{% static 'extra/bootstrap.min.css' %}">
-{#  <link rel="stylesheet" href="{% static 'build/css/custom.min.css' %}">#}
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-</head>
+    <title> Alif-Marine-Engineers </title>
 
-<body>
+    <!-- Bootstrap -->
+    <link href="{% static 'extra/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="{% static 'extra/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+    <!-- NProgress -->
+    <link href="{% static 'extra/nprogress.css' %}" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="{% static 'extra/animate.css/animate.min.css' %}" rel="stylesheet">
 
-{#    <div class="page-header">#}
-{#        <h1>#}
-{#            {% trans 'Join Today!' %}#}
-{#        </h1>#}
-{#    </div>#}
+    <!-- Custom Theme Style -->
+    <link href="{% static 'build/css/custom.min.css' %}" rel="stylesheet">
+  </head>
 
-    <div class="login_wrapper" style="margin-top: 2em">
-        <h1>
-            {% trans 'Join Today!' %}
-        </h1>
-        <div class="col-md-9">
+  <body class="login">
+    <div>
+{#      <a class="hiddenanchor" id="signup"></a>#}
+{#      <a class="hiddenanchor" id="signin"></a>#}
+
+      <div class="login_wrapper">
+        <div class="animate form login_form">
+          <section class="login_content">
+          <h1>
+              {% trans 'Join Today!' %}
+          </h1>
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert alert-success alert-dismissable">
+                    <div class="alert alert-error alert-dismissable">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                        {{ message }}
+                            {{ message }}
                     </div>
                 {% endfor %}
             {% endif %}
-            <h3 style="margin-top: 0">{% trans 'Sign Up' %}</h3>
             <form role="form" class="form-horizontal" method="post" action="{% url 'signup' %}">
-                {% csrf_token %}
+              {% csrf_token %}
                 {% for field in form.visible_fields %}
-                <div class="form-group{% if field.errors %} has-error{% endif %}">
-                    <label for="{{ field.label }}" class="col-sm-2 control-label">{{ field.label }}</label>
-                    <div class="col-sm-10">
-                        {{ field }}
-                        {% if field.help_text %}
-                            <span class="help-block">{{ field.help_text|safe }}</span>
-                        {% endif %}
-                        {% for error in field.errors %}
-                            <label class="control-label">{{ error }}</label>
-                        {% endfor %}
+                        <div class="form-group{% if field.errors %} has-error{% endif %}">
+                            <label for="{{ field.label }}" class="col-sm-2 control-label">
+                                {{ field.label }}
+                            </label>
+                            <div class="col-sm-10">
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <span class="help-block">{{ field.help_text|safe }}</span>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <label class="control-label">{{ error }}</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary">
+                                {% trans 'Sign Up' %}
+                            </button>
+                        </div>
                     </div>
-                </div>
-                {% endfor %}
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-primary">{% trans 'Sign Up' %}</button>
-                    </div>
+                <div class="clearfix"></div>
+                <br />
+
+                <div>
+                  <h1><i class="fa fa-paw"></i>
+                      <a href="{% url 'home' %}"> Alif Marine Engineers Ltd. </a>
+                  </h1>
+                  <p>©2016 All Rights Reserved. Gentelella Alela! is a Bootstrap 3 template. Privacy and Terms</p>
                 </div>
             </form>
+          </section>
         </div>
+      </div>
     </div>
-
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-    <script  src="{% static 'js/register.js' %}"></script>
-
-</body>
+  </body>
 </html>

@@ -1,6 +1,6 @@
-# from officer.models import ProductList
 # from django.db.models.signals import post_save
 # from django.dispatch import receiver
+# from .models import ProductList
 #
 #
 # # Signal to save each new blog post instance into ElasticSearch

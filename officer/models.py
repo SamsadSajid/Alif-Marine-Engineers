@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
+# from .search import ProductIndex
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.contrib.auth.models import User
 import hashlib
 import os.path
 import urllib
@@ -21,7 +25,7 @@ class ProductList(models.Model):
     product_id = models.IntegerField()
     product_name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=40)
-    uploaded_by = models.CharField(max_length=100)
+    uploaded_by = models.ForeignKey(User, related_name='+')
     uploaded_at = models.DateTimeField(auto_now_add=True)
     product_image = models.FileField(upload_to='media/')
     choice = (('available', 'available'), ('unavailable', 'unavailable'))
@@ -42,14 +46,14 @@ class ProductList(models.Model):
 
     # Method for indexing the model
     def indexing(self):
-        from elastic_search.search import ProductIndex
+        from .search import ProductIndex
         obj = ProductIndex(
             meta={'id': self.id},
             product_id=self.product_id,
             product_name=self.product_name,
             slug=self.slug,
-            uploaded_by=self.uploaded_by,
-            uploaded_at=self.uploaded_at,
+            # uploaded_by=self.uploaded_by,
+            # uploaded_at=self.uploaded_at,
             product_available=self.product_available,
             product_porichiti=self.product_porichiti,
             product_description=self.product_description,
@@ -58,8 +62,13 @@ class ProductList(models.Model):
             quantity=self.quantity,
             price=self.price
         )
-        obj.save()
+        obj.save(index='product-index')
         return obj.to_dict(include_meta=True)
+
+
+@receiver(post_save, sender=ProductList)
+def index_post(sender, instance, **kwargs):
+    instance.indexing()
 
 
 class ProductReview(models.Model):

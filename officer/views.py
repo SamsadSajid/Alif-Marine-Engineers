@@ -234,8 +234,12 @@ def add_product(request):
             product_list.product_name = form.cleaned_data.get('product_name')
             product_list.uploaded_by = user
             product_list.quantity = form.cleaned_data.get('quantity')
+            product_list.price = form.cleaned_data.get('price')
             product_list.product_available = form.cleaned_data.get('product_available')
             product_list.product_description = form.cleaned_data.get('product_description')
+            product_list.product_porichiti = form.cleaned_data.get('product_porichiti')
+            product_list.product_notes = form.cleaned_data.get('product_notes')
+            product_list.product_features = form.cleaned_data.get('product_features')
             product_list.slug = product_list.product_name.replace(' ', '-')
             product_list.product_image = request.FILES['product_image']
             file_type = product_list.product_image.url.split('.')[-1]
@@ -262,7 +266,10 @@ def add_product(request):
             'product_image': product_list.product_image,
             'quantity': product_list.quantity,
             'product_available': product_list.product_available,
-            'product_description': product_list.product_description
+            'product_porichiti': product_list.product_porichiti,
+            'product_description': product_list.product_description,
+            'product_notes': product_list.product_notes,
+            'product_features': product_list.product_features
         })
         return render(request, 'dashboard/add_products.html', {'form': form})
 
