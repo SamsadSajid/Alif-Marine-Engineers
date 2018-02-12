@@ -4,7 +4,8 @@ python:
   - 2.7
   - 3.5
 
-services: postgresql
+services:
+  - postgresql
 
 env:
 # - DJANGO_VERSION=1.11.6
