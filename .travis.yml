@@ -1,8 +1,8 @@
 language: python
 
 python:
-- 2.7
-- 3.5
+  - 2.7
+  - 3.5
 
 services: postgresql
 
@@ -15,16 +15,16 @@ before_install:
   - export PIP_USE_MIRRORS=true
 
 install:
-- pip install -r requirements.txt
+  - pip install -r requirements.txt
 # - pip install -q Django==$DJANGO_VERSION
- - pip install psycopg2 --quiet
+  - pip install psycopg2 --quiet
 
 # before_install:
 # - openssl aes-256-cbc -K $encrypted_a385155268b0_key -iv $encrypted_a385155268b0_iv
 #   -in .env.enc -out .env -d
 
 before_script:
-  - psql -c "CREATE DATABASE travisci_AlifMarine;" -U postgres
+  - psql -c "CREATE DATABASE travisci_Alif_Marine;" -U postgres
 
 script:
   - python manage.py migrate
