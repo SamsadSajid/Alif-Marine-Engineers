@@ -24,7 +24,7 @@ install:
 #   -in .env.enc -out .env -d
 
 before_script:
-  - psql -c "CREATE DATABASE travisci;" -U postgres
+  - psql -c "CREATE DATABASE travisci_AlifMarine;" -U postgres
 
 script:
   - python manage.py migrate
