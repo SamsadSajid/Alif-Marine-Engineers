@@ -11,7 +11,7 @@ env:
 
 before_install:
   - export DJANGO_SETTINGS_MODULE=OpenGMS.settings
-  - export PYTHONPATH=$HOME/builds/shikkanobish/OpenGMS
+  - export PYTHONPATH=$HOME/builds/SamsadSajid/OpenGMS
   - export PIP_USE_MIRRORS=true
 
 install:
